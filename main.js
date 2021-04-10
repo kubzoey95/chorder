@@ -1,3 +1,6 @@
+KEY_TONE_MAPPING = {       "2": 1,       "3": 3,               "5": 6,       "6": 8,       "7": 10,         // black keys
+                    "q": 0,       "w": 2,       "e": 4, "r": 5,       "t": 7,       "y": 9,        "u": 11} // white keys
+
 let model = null;
 let loadModel = async function(){
   model = await tf.loadLayersModel('https://raw.githubusercontent.com/kubzoey95/chorder/main/model.json');
@@ -20,11 +23,12 @@ loadSynth()
 
 let toneStarted = false;
 
-$(document).keydown(async function(){
+$(document).keydown(async function(e){
   if(!toneStarted){
     await Tone.start();
     toneStarted = true;
   }
-  synth && synth.triggerAttackRelease('A3', '4n');
+  
+  synth && synth.triggerAttackRelease(Math.pow(2, (KEY_TONE_MAPPING[String.fromCharCode(e.keyCode || e.which)] + 3) / 12) * 440.0, '4n');
 })
 // synth.triggerAttackRelease(Math.pow(2, (currNote.keyProps[0].int_value - 57) / 12) *440.0, 0.4, now)
