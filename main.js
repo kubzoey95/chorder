@@ -23,6 +23,7 @@ loadSynth()
 let toneStarted = false;
 const now = Tone.now();
 let currentTone = null;
+let lastFourNotes = [0, 0, 0, 0];
 
 $(document).keypress(async function(e){
   if(!toneStarted){
@@ -38,5 +39,10 @@ $(document).keypress(async function(e){
 
 $(document).keyup(async function(){
   synth.triggerRelease(now);
+  if (currentTone !== null){
+    lastFourNotes = lastFourNotes.slice(1);
+    lastFourNotes.push(currentTone);
+  }
   currentTone = null;
+  console.log(lastFourNotes);
 })
