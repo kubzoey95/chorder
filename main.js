@@ -37,4 +37,7 @@ $(document).keypress(async function(e){
     currentTone = tone;
   }
 })
-// synth.triggerAttackRelease(Math.pow(2, (currNote.keyProps[0].int_value - 57) / 12) *440.0, 0.4, now)
+
+$(document).keyup(async function(){
+  synth.triggerRelease(now);
+})
