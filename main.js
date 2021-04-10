@@ -28,7 +28,7 @@ $(document).keydown(async function(e){
     await Tone.start();
     toneStarted = true;
   }
-  
+  console.log(String.fromCharCode(e.keyCode || e.which))
   synth && synth.triggerAttackRelease(Math.pow(2, (KEY_TONE_MAPPING[String.fromCharCode(e.keyCode || e.which)] + 3) / 12) * 440.0, '4n');
 })
 // synth.triggerAttackRelease(Math.pow(2, (currNote.keyProps[0].int_value - 57) / 12) *440.0, 0.4, now)
