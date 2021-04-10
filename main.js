@@ -20,7 +20,7 @@ loadSynth()
 
 let toneStarted = false;
 
-$(document).keydown(function(){
+$(document).keydown(async function(){
   if(!toneStarted){
     await Tone.start();
     toneStarted = true;
