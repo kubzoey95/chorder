@@ -39,8 +39,7 @@ $(document).keypress(async function(e){
     noteTensor = noteTensor.reshape([1, 13, 1]);
     let chordTensor = tf.oneHot(tf.tensor3d([lastFourChords], [1, 4, 4], 'int32'), 13);
     let prediction = await model.predict([chordTensor, noteTensor]);
-    prediction.map(e => tf.argMax(e.reshape([13])));
-    currentChord = Array.from(tensor.dataSync());
+    currentChord = prediction.map(e => Array.from(tf.argMax(e.reshape([13])).dataSync()));
     
     synth && synth.triggerAttack(Math.pow(2, (tone + 3) / 12) * 440.0, now);
     currentTone = tone;
