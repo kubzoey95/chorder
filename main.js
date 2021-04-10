@@ -35,12 +35,14 @@ $(document).keypress(async function(e){
   }
   let tone = KEY_TONE_MAPPING[String.fromCharCode(e.keyCode || e.which)];
   if (tone !== undefined && currentTone !== tone){
-    let noteTensor = tf.oneHot(tf.tensor2d([[tone]], 'int32'), 13);
+    let noteTensor = tf.oneHot(tf.tensor2d([[tone]], [1, 1], 'int32'), 13);
     noteTensor = noteTensor.reshape([1, 13, 1]);
     let chordTensor = tf.oneHot(tf.tensor3d([lastFourChords], [1, 4, 4], 'int32'), 13);
     
+    noteTensor.print();
+    chordTensor.print();
     let prediction = model.predict([chordTensor, noteTensor]);
-    console.log(prediction);
+    prediciton.print();
     
     synth && synth.triggerAttack(Math.pow(2, (tone + 3) / 12) * 440.0, now);
     currentTone = tone;
