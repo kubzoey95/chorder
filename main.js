@@ -1,5 +1,5 @@
 const KEY_TONE_MAPPING = {       "2": 1,       "3": 3,               "5": 6,       "6": 8,       "7": 10,         // black keys
-                          "q": 0,       "w": 2,       "e": 4, "r": 5,       "t": 7,       "y": 9,        "u": 11} // white keys
+                          "Q": 0,       "W": 2,       "E": 4, "R": 5,       "T": 7,       "Y": 9,        "U": 11} // white keys
 
 let model = null;
 let loadModel = async function(){
