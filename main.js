@@ -10,7 +10,8 @@ loadModel()
 let synth = null;
 
 let loadSynth = async function(){
-  synth = new Synth().toMaster();
+  await Tone.start();
+  synth = new Tone.Synth().toMaster();
   console.log("Synth loaded!");
   console.log(synth);
 }
