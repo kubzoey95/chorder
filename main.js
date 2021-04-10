@@ -1,5 +1,3 @@
-import "./Tone.js"
-
 let model = null;
 loadModel = async function(){
   model = await tf.loadLayersModel('https://raw.githubusercontent.com/kubzoey95/chorder/main/model.json');
@@ -12,8 +10,7 @@ loadModel()
 let synth = null;
 
 loadSynth = async function(){
-  await Tone.start();
-  synth = new Tone.Synth().toMaster();
+  synth = new Synth().toMaster();
   console.log("Synth loaded!");
   console.log(synth);
 }
