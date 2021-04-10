@@ -25,6 +25,6 @@ $(document).keydown(async function(){
     await Tone.start();
     toneStarted = true;
   }
-  synth.triggerAttackRelease('A3', '4n');
+  synth && synth.triggerAttackRelease('A3', '4n');
 })
 // synth.triggerAttackRelease(Math.pow(2, (currNote.keyProps[0].int_value - 57) / 12) *440.0, 0.4, now)
