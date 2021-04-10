@@ -51,7 +51,7 @@ $(document).keyup(async function(){
   synth.triggerRelease(now);
   if (currentTone !== null && currentChord !== null){
     lastFourChords = lastFourChords.slice(1);
-    lastFourChords.push(currentChord.map(e -> e + 1));
+    lastFourChords.push(currentChord.map(e => e + 1));
     lastFourChords[lastFourChords.length - 1].push(currentTone + 1)
   }
   currentTone = null;
