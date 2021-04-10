@@ -14,9 +14,17 @@ let loadSynth = async function(){
   synth = new Tone.Synth().toMaster();
   console.log("Synth loaded!");
   console.log(synth);
-  synth.triggerAttackRelease('A3', '4n');
 }
 
 loadSynth()
 
+let toneStarted = false;
+
+$(document).keydown(function(){
+  if(!toneStarted){
+    await Tone.start();
+    toneStarted = true;
+  }
+  synth.triggerAttackRelease('A3', '4n');
+})
 // synth.triggerAttackRelease(Math.pow(2, (currNote.keyProps[0].int_value - 57) / 12) *440.0, 0.4, now)
