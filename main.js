@@ -22,13 +22,19 @@ let loadSynth = async function(){
 loadSynth()
 
 let toneStarted = false;
+const now = Tone.now();
+let currentTone = null;
 
-$(document).keydown(async function(e){
+$(document).keypress(async function(e){
   if(!toneStarted){
     await Tone.start();
     toneStarted = true;
   }
-  console.log(String.fromCharCode(e.keyCode || e.which))
-  synth && synth.triggerAttackRelease(Math.pow(2, (KEY_TONE_MAPPING[String.fromCharCode(e.keyCode || e.which)] + 3) / 12) * 440.0, '4n');
+  console.log(String.fromCharCode(e.keyCode || e.which));
+  let tone = KEY_TONE_MAPPING[String.fromCharCode(e.keyCode || e.which)];
+  if (tone && currentTone !== tone){
+    synth && synth.triggerAttack(Math.pow(2, (tone + 3) / 12) * 440.0, now);
+    currentTone = tone;
+  }
 })
 // synth.triggerAttackRelease(Math.pow(2, (currNote.keyProps[0].int_value - 57) / 12) *440.0, 0.4, now)
