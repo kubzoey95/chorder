@@ -13,7 +13,6 @@ loadModel()
 let synth = null;
 
 let loadSynth = async function(){
-//   await Tone.start();
   synth = new Tone.Synth().toMaster();
   console.log("Synth loaded!");
   console.log(synth);
@@ -30,7 +29,6 @@ $(document).keypress(async function(e){
     await Tone.start();
     toneStarted = true;
   }
-  console.log(String.fromCharCode(e.keyCode || e.which));
   let tone = KEY_TONE_MAPPING[String.fromCharCode(e.keyCode || e.which)];
   if (tone !== null && currentTone !== tone){
     synth && synth.triggerAttack(Math.pow(2, (tone + 3) / 12) * 440.0, now);
@@ -40,4 +38,5 @@ $(document).keypress(async function(e){
 
 $(document).keyup(async function(){
   synth.triggerRelease(now);
+  currentTone = null;
 })
