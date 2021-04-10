@@ -32,7 +32,7 @@ $(document).keypress(async function(e){
   }
   console.log(String.fromCharCode(e.keyCode || e.which));
   let tone = KEY_TONE_MAPPING[String.fromCharCode(e.keyCode || e.which)];
-  if (tone && currentTone !== tone){
+  if (tone !== null && currentTone !== tone){
     synth && synth.triggerAttack(Math.pow(2, (tone + 3) / 12) * 440.0, now);
     currentTone = tone;
   }
