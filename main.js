@@ -42,7 +42,7 @@ $(document).keypress(async function(e){
     noteTensor.print();
     chordTensor.print();
     let prediction = model.predict([chordTensor, noteTensor]);
-    prediction.forEach(e => tf.argMax(e.reshape([13])));
+    prediction.forEach(e => tf.argMax(e.reshape([13])).print());
     
     synth && synth.triggerAttack(Math.pow(2, (tone + 3) / 12) * 440.0, now);
     currentTone = tone;
