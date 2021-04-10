@@ -10,10 +10,11 @@ loadModel()
 let synth = null;
 
 let loadSynth = async function(){
-  await Tone.start();
+//   await Tone.start();
   synth = new Tone.Synth().toMaster();
   console.log("Synth loaded!");
   console.log(synth);
+  synth.triggerAttackRelease('A3', '4n');
 }
 
 loadSynth()
