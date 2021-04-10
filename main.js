@@ -35,14 +35,12 @@ $(document).keypress(async function(e){
   }
   let tone = KEY_TONE_MAPPING[String.fromCharCode(e.keyCode || e.which)];
   if (tone !== undefined && currentTone !== tone){
-    let noteTensor = tf.oneHot(tf.tensor2d([[tone]], [1, 1], 'int32'), 13);
+    let noteTensor = tf.oneHot(tf.tensor2d([[tone + 1]], [1, 1], 'int32'), 13);
     noteTensor = noteTensor.reshape([1, 13, 1]);
     let chordTensor = tf.oneHot(tf.tensor3d([lastFourChords], [1, 4, 4], 'int32'), 13);
-    
-    noteTensor.print();
-    chordTensor.print();
     let prediction = await model.predict([chordTensor, noteTensor]);
-    prediction.forEach(e => tf.argMax(e.reshape([13])).print());
+    prediction.map(e => tf.argMax(e.reshape([13])));
+    currentChord = Array.from(tensor.dataSync());
     
     synth && synth.triggerAttack(Math.pow(2, (tone + 3) / 12) * 440.0, now);
     currentTone = tone;
@@ -53,9 +51,10 @@ $(document).keyup(async function(){
   synth.triggerRelease(now);
   if (currentTone !== null && currentChord !== null){
     lastFourChords = lastFourChords.slice(1);
-    lastFourChords.push(currentChord.map(e => e + 1));
+    lastFourChords.push(currentChord);
     lastFourChords[lastFourChords.length - 1].push(currentTone + 1)
   }
   currentTone = null;
   currentChord = null;
+  console.log(lastFourChords);
 })
