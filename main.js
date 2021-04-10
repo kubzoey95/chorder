@@ -1,3 +1,3 @@
-const model = await tf.loadLayersModel('model.json');
+const model = await tf.loadLayersModel('https://raw.githubusercontent.com/kubzoey95/chorder/main/model.json');
 
 console.log(model);
