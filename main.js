@@ -41,7 +41,7 @@ $(document).keypress(async function(e){
     
     noteTensor.print();
     chordTensor.print();
-    let prediction = model.predict([chordTensor, noteTensor]);
+    let prediction = await model.predict([chordTensor, noteTensor]);
     prediciton.print();
     
     synth && synth.triggerAttack(Math.pow(2, (tone + 3) / 12) * 440.0, now);
