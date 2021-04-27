@@ -32,9 +32,10 @@ let lastNotes = [0,0,0];
 let goThroughModel = function(){
   let prediction = null;
   let notesPrepared = []
-  for (let i = 0; i < lastNotes.length - 3; i++) {
+  for (let i = 0; i < lastNotes.length - 2; i++) {
     notesPrepared.push(lastNotes.slice(i, i + 3))
   }
+  console.log(notesPrepared);
   model.resetStates();
   let lastNotesTensor = tf.oneHot(tf.tensor2d([notesPrepared], [notesPrepared.length, 3], 'int32'), 13);
   prediction = model.predict([lastNotesTensor]);
