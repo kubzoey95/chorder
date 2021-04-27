@@ -4,6 +4,7 @@ const KEY_TONE_MAPPING = {       "2": 1,       "3": 3,               "5": 6,    
 let model = null;
 let loadModel = async function(){
   model = await tf.loadLayersModel('https://raw.githubusercontent.com/kubzoey95/chorder/main/model.json');
+  model.resetStates();
   console.log("Model loaded!");
   console.log(model);
 }
@@ -28,6 +29,14 @@ let currentTone = null;
 let currentChord = null;
 let lastNotes = [0,0,0];
 
+let goThroughModel = function(){
+  let lastNotesTensor = tf.oneHot(tf.tensor3d([lastNotes], [1, 3], 'int32'), 13);
+  let prediction = model.predict([lastNotesTensor]);
+  prediction.print();
+  lastNotes = lastNotes.slice(lastNotes.length - 3);
+  return Array.from(tf.argMax(prediction.reshape([13])).dataSync());
+}
+
 $(document).keypress(async function(e){
   if(!toneStarted){
     await Tone.start();
@@ -40,16 +49,11 @@ $(document).keypress(async function(e){
     lastNotes.push(currentTone + 1);
     console.log(lastNotes);
   }
-//   let noteTensor = tf.oneHot(tf.tensor2d([[tone + 1]], [1, 1], 'int32'), 13);
-//   noteTensor = noteTensor.reshape([1, 13, 1]);
-//   let chordTensor = tf.oneHot(tf.tensor3d([lastNotes], [1, 4, 4], 'int32'), 13);
-//   let prediction = model.predict([chordTensor]);
-//   prediction.print();
-//   currentChord = Array.from(tf.argMax(prediction.reshape([3, 13]), -1).dataSync());
+
 })
 
 $(document).keyup(async function(){
   synth.triggerRelease(now);
   currentTone = null;
-  console.log(lastNotes);
+  console.log(goThroughModel());
 })
