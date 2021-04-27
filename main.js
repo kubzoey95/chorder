@@ -67,7 +67,9 @@ $(document).keyup(async function(e){
   }
   else {
     lastNotes.push(goThroughModel()[0]);
-    lastNotes = lastNotes.slice(1);
+    if (lastNotes.length > 3){
+      lastNotes = lastNotes.slice(1);
+    }
     synth && synth.triggerAttackRelease(Math.pow(2, (lastNotes[lastNotes.length - 1] - 1 + 3) / 12) * 440.0, "8n", Tone.now());
   }
 })
