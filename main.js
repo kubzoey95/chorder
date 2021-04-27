@@ -30,7 +30,7 @@ let currentChord = null;
 let lastNotes = [0,0,0];
 
 let goThroughModel = function(){
-  let lastNotesTensor = tf.oneHot(tf.tensor2d([lastNotes], [1, 3], 'int32'), 13);
+  let lastNotesTensor = tf.oneHot(tf.tensor2d([lastNotes], [1, lastNotes.length], 'int32'), 13);
   let prediction = model.predict([lastNotesTensor]);
   prediction.print();
   lastNotes = lastNotes.slice(lastNotes.length - 3);
