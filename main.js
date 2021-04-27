@@ -31,13 +31,13 @@ let lastNotes = [0,0,0];
 
 let goThroughModel = function(){
   let prediction = null;
-  let notesPrepared = []
-  for (let i = 0; i < lastNotes.length - 2; i++) {
-    notesPrepared.push(lastNotes.slice(i, i + 3))
-  }
-  console.log(notesPrepared);
+//   let notesPrepared = []
+//   for (let i = 0; i < lastNotes.length - 2; i++) {
+//     notesPrepared.push(lastNotes.slice(i, i + 3))
+//   }
+//   console.log(notesPrepared);
   model.resetStates();
-  let lastNotesTensor = tf.oneHot(tf.tensor3d([notesPrepared], [1, notesPrepared.length, 3], 'int32'), 13);
+  let lastNotesTensor = tf.oneHot(tf.tensor3d([lastNotes], [1, lastNotes.length], 'int32'), 13);
   prediction = model.predict([lastNotesTensor]);
   prediction.print();
   return Array.from(tf.argMax(prediction.reshape([13])).dataSync());
