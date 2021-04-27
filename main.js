@@ -64,8 +64,8 @@ $(document).keyup(async function(e){
     currentTone = null;
   }
   else {
-    lastNotes.push(goThroughModel()[0] + 1);
+    lastNotes.push(goThroughModel()[0]);
     lastNotes = lastNotes.slice(1);
-    synth && synth.triggerAttackRelease(Math.pow(2, (lastNotes[lastNotes.length - 1] + 3) / 12) * 440.0, "8n", now);
+    synth && synth.triggerAttackRelease(Math.pow(2, (lastNotes[lastNotes.length - 1] - 1 + 3) / 12) * 440.0, "8n", now);
   }
 })
