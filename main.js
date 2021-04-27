@@ -40,11 +40,11 @@ $(document).keypress(async function(e){
     let chordTensor = tf.oneHot(tf.tensor3d([lastFourChords], [1, 4, 4], 'int32'), 13);
     let prediction = model.predict([chordTensor]);
     prediction.print();
-    console.log(Array.from(prediction.dataSync()));
-    currentChord = Array.from(prediction.dataSync()).map(e => Array.from(tf.argMax(e.reshape([13])).dataSync())[0]);
-    console.log(currentChord);
-    synth && synth.triggerAttack(Math.pow(2, (tone + 3) / 12) * 440.0, now);
-    currentTone = tone;
+    console.log(tf.argMax(prediction.reshape([3, 13]), -1).dataSync());
+//     currentChord = Array.from(prediction.dataSync()).map(e => Array.from(tf.argMax(e.reshape([13])).dataSync())[0]);
+//     console.log(currentChord);
+//     synth && synth.triggerAttack(Math.pow(2, (tone + 3) / 12) * 440.0, now);
+//     currentTone = tone;
   }
 })
 
