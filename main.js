@@ -32,7 +32,7 @@ let lastNotes = [0,0,0];
 let goThroughModel = function(){
   let prediction = null;
   let notesPrepared = []
-  for (i = 0; i < lastNotes.length - 3; i++) {
+  for (let i = 0; i < lastNotes.length - 3; i++) {
     notesPrepared.push(lastNotes.slice(i, i + 3))
   }
   model.resetStates();
