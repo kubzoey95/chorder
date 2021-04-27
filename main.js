@@ -36,8 +36,8 @@ $(document).keypress(async function(e){
   let keyPressed = String.fromCharCode(e.keyCode || e.which);
   if (KEY_TONE_MAPPING.hasOwnProperty(keyPressed) && currentTone != KEY_TONE_MAPPING[keyPressed]){
     currentTone = KEY_TONE_MAPPING[keyPressed];
-    synth && synth.triggerAttack(Math.pow(2, (tone + 3) / 12) * 440.0, now);
-    lastNotes.push(tone + 1);
+    synth && synth.triggerAttack(Math.pow(2, (currentTone + 3) / 12) * 440.0, now);
+    lastNotes.push(currentTone + 1);
     console.log(lastNotes);
   }
 //   let noteTensor = tf.oneHot(tf.tensor2d([[tone + 1]], [1, 1], 'int32'), 13);
