@@ -31,15 +31,14 @@ let lastNotes = [0,0,0];
 
 let goThroughModel = function(){
   let prediction = null;
-  do{
-    let lastNotesTensor = tf.oneHot(tf.tensor2d([lastNotes.slice(0, 3)], [1, 3], 'int32'), 13);
-    prediction = model.predict([lastNotesTensor]);
-    prediction.print();
-    if (lastNotes.length > 3){
-      lastNotes = lastNotes.slice(1);
-    }
+  let notesPrepared = []
+  for (i = 0; i < lastNotes.length - 3; i++) {
+    notesPrepared.push(lastNotes.slice(i, i + 3))
   }
-  while(lastNotes.length > 3)
+  model.resetStates();
+  let lastNotesTensor = tf.oneHot(tf.tensor2d([notesPrepared], [notesPrepared.length, 3], 'int32'), 13);
+  prediction = model.predict([lastNotesTensor]);
+  prediction.print();
   return Array.from(tf.argMax(prediction.reshape([13])).dataSync());
 }
 
@@ -67,9 +66,6 @@ $(document).keyup(async function(e){
   }
   else {
     lastNotes.push(goThroughModel()[0]);
-    if (lastNotes.length > 3){
-      lastNotes = lastNotes.slice(1);
-    }
     synth && synth.triggerAttackRelease(Math.pow(2, (lastNotes[lastNotes.length - 1] - 1 + 3) / 12) * 440.0, "8n", Tone.now());
   }
 })
