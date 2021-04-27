@@ -58,12 +58,13 @@ $(document).keypress(async function(e){
 
 $(document).keyup(async function(e){
   let keyPressed = String.fromCharCode(e.keyCode || e.which);
+  console.log(keyPressed);
   if (KEY_TONE_MAPPING.hasOwnProperty(keyPressed)){
     synth && synth.triggerRelease(now);
     currentTone = null;
   }
   else {
-    lastNotes.push(goThroughModel()[0]);
+    lastNotes.push(goThroughModel()[0] + 1);
     lastNotes = lastNotes.slice(1);
     synth && synth.triggerAttackRelease(Math.pow(2, (lastNotes[lastNotes.length - 1] + 3) / 12) * 440.0, "8n", now);
   }
