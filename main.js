@@ -46,8 +46,8 @@ $(document).keypress(async function(e){
     await Tone.start();
     toneStarted = true;
   }
-  let keyPressed = String.fromCharCode(e.keyCode || e.which);
-  if (KEY_TONE_MAPPING.hasOwnProperty(keyPressed) && currentTone != KEY_TONE_MAPPING[keyPressed]){
+  let keyPressed = String.fromCharCode(e.keyCode || e.which).toLowerCase();
+  if (KEY_TONE_MAPPING.hasOwnProperty(keyPressed) && currentTone !== KEY_TONE_MAPPING[keyPressed]){
     currentTone = KEY_TONE_MAPPING[keyPressed];
     synth && synth.triggerAttackRelease(Math.pow(2, (currentTone + 3) / 12) * 440.0, "8n", now);
     lastNotes.push(currentTone + 1);
