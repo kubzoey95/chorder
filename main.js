@@ -57,7 +57,7 @@ $(document).keypress(async function(e){
 })
 
 $(document).keyup(async function(e){
-  let keyPressed = String.fromCharCode(e.keyCode || e.which);
+  let keyPressed = String.fromCharCode(e.keyCode || e.which).toLowerCase();
   console.log(keyPressed);
   if (KEY_TONE_MAPPING.hasOwnProperty(keyPressed)){
     synth && synth.triggerRelease(now);
