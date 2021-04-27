@@ -37,7 +37,7 @@ let goThroughModel = function(){
 //   }
 //   console.log(notesPrepared);
   model.resetStates();
-  let lastNotesTensor = tf.oneHot(tf.tensor3d([lastNotes], [1, lastNotes.length], 'int32'), 13);
+  let lastNotesTensor = tf.oneHot(tf.tensor2d([lastNotes], [1, lastNotes.length], 'int32'), 13);
   prediction = model.predict([lastNotesTensor]);
   prediction.print();
   return Array.from(tf.argMax(prediction.reshape([13])).dataSync());
