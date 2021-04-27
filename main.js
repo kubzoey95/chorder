@@ -30,10 +30,14 @@ let currentChord = null;
 let lastNotes = [0,0,0];
 
 let goThroughModel = function(){
-  let lastNotesTensor = tf.oneHot(tf.tensor2d([lastNotes.slice(lastNotes.length - 3)], [1, 3], 'int32'), 13);
-  let prediction = model.predict([lastNotesTensor]);
-  prediction.print();
-  lastNotes = lastNotes.slice(lastNotes.length - 3);
+  let prediction = null;
+  do{
+    let lastNotesTensor = tf.oneHot(tf.tensor2d([lastNotes.slice(0, 3)], [1, 3], 'int32'), 13);
+    prediction = model.predict([lastNotesTensor]);
+    prediction.print();
+    lastNotes = lastNotes.slice(1)
+  }
+  while(lastNotes.length > 3)
   return Array.from(tf.argMax(prediction.reshape([13])).dataSync());
 }
 
@@ -45,15 +49,22 @@ $(document).keypress(async function(e){
   let keyPressed = String.fromCharCode(e.keyCode || e.which);
   if (KEY_TONE_MAPPING.hasOwnProperty(keyPressed) && currentTone != KEY_TONE_MAPPING[keyPressed]){
     currentTone = KEY_TONE_MAPPING[keyPressed];
-    synth && synth.triggerAttack(Math.pow(2, (currentTone + 3) / 12) * 440.0, now);
+    synth && synth.triggerAttackRelease(Math.pow(2, (currentTone + 3) / 12) * 440.0, "8n", now);
     lastNotes.push(currentTone + 1);
     console.log(lastNotes);
   }
 
 })
 
-$(document).keyup(async function(){
-  synth.triggerRelease(now);
-  currentTone = null;
-  console.log(goThroughModel());
+$(document).keyup(async function(e){
+  let keyPressed = String.fromCharCode(e.keyCode || e.which);
+  if (KEY_TONE_MAPPING.hasOwnProperty(keyPressed)){
+    synth && synth.triggerRelease(now);
+    currentTone = null;
+  }
+  else {
+    lastNotes.push(goThroughModel()[0]);
+    lastNotes = lastNotes.slice(1);
+    synth && synth.triggerAttackRelease(Math.pow(2, (lastNotes[lastNotes.length - 1] + 3) / 12) * 440.0, "8n", now);
+  }
 })
