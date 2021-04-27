@@ -49,7 +49,7 @@ $(document).keypress(async function(e){
   let keyPressed = String.fromCharCode(e.keyCode || e.which).toLowerCase();
   if (KEY_TONE_MAPPING.hasOwnProperty(keyPressed) && currentTone !== KEY_TONE_MAPPING[keyPressed]){
     currentTone = KEY_TONE_MAPPING[keyPressed];
-    synth && synth.triggerAttackRelease(Math.pow(2, (currentTone + 3) / 12) * 440.0, "8n", now);
+    synth && synth.triggerAttackRelease(Math.pow(2, (currentTone + 3) / 12) * 440.0, "8n", Tone.now());
     lastNotes.push(currentTone + 1);
     console.log(lastNotes);
   }
@@ -66,6 +66,6 @@ $(document).keyup(async function(e){
   else {
     lastNotes.push(goThroughModel()[0]);
     lastNotes = lastNotes.slice(1);
-    synth && synth.triggerAttackRelease(Math.pow(2, (lastNotes[lastNotes.length - 1] - 1 + 3) / 12) * 440.0, "8n", now);
+    synth && synth.triggerAttackRelease(Math.pow(2, (lastNotes[lastNotes.length - 1] - 1 + 3) / 12) * 440.0, "8n", Tone.now());
   }
 })
