@@ -35,7 +35,9 @@ let goThroughModel = function(){
     let lastNotesTensor = tf.oneHot(tf.tensor2d([lastNotes.slice(0, 3)], [1, 3], 'int32'), 13);
     prediction = model.predict([lastNotesTensor]);
     prediction.print();
-    lastNotes = lastNotes.slice(1)
+    if (lastNotes.length > 3){
+      lastNotes = lastNotes.slice(1);
+    }
   }
   while(lastNotes.length > 3)
   return Array.from(tf.argMax(prediction.reshape([13])).dataSync());
