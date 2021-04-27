@@ -60,7 +60,7 @@ $(document).keyup(async function(e){
   let keyPressed = String.fromCharCode(e.keyCode || e.which).toLowerCase();
   console.log(keyPressed);
   if (KEY_TONE_MAPPING.hasOwnProperty(keyPressed)){
-    synth && synth.triggerRelease(now);
+//     synth && synth.triggerRelease(now);
     currentTone = null;
   }
   else {
