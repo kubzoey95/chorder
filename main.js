@@ -42,12 +42,12 @@ let chooseRandomNumber = function(weights){
 
 let goThroughModel = function(){
   let prediction = null;
-  while(lastNotes.length > 2){
+  while(lastNotes.length !== 3){
     let lastNotesTensor = tf.oneHot(tf.tensor2d([lastNotes.slice(0,3)], [1, 3], 'int32'), 13);
     prediction = model.predict([lastNotesTensor]);
     lastNotes = lastNotes.slice(1);
+    prediction.print();
   }
-  prediction.print();
   return chooseRandomNumber(Array.from(prediction.reshape([13]).dataSync()));
 //   return Array.from(tf.argMax().dataSync());
 }
@@ -75,7 +75,9 @@ $(document).keyup(async function(e){
     currentTone = null;
   }
   else {
-    lastNotes.push(goThroughModel()[0]);
+    if (lastNotes.length > 2){
+      lastNotes.push(goThroughModel()[0]);
+    }
     synth && synth.triggerAttackRelease(Math.pow(2, (lastNotes[lastNotes.length - 1] - 1 + 3) / 12) * 440.0, "8n", Tone.now());
   }
 })
