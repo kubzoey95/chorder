@@ -42,7 +42,7 @@ let chooseRandomNumber = function(weights){
 
 let goThroughModel = function(){
   let prediction = null;
-  while(lastNotes.length !== 3){
+  while(lastNotes.length > 3){
     let lastNotesTensor = tf.oneHot(tf.tensor2d([lastNotes.slice(0,3)], [1, 3], 'int32'), 13);
     prediction = model.predict([lastNotesTensor]);
     lastNotes = lastNotes.slice(1);
