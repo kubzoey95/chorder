@@ -37,6 +37,7 @@ let chooseRandomNumber = function(weights){
     if (sum <= randomNumber < newSum){
       return index;
     }
+    sum = newSum;
   }
 }
 
