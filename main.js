@@ -32,7 +32,7 @@ let lastNotes = [0,0,0];
 let chooseRandomNumber = function(weights){
   let sum = 0;
   let randomNumber = Math.random();
-  for(let [index, weight] of weights.slice(1)){
+  for(let [index, weight] of weights.slice(1).entries()){
     let newSum = sum + weigth;
     if (sum <= randomNumber < newSum){
       return index;
