@@ -29,6 +29,17 @@ let currentTone = null;
 let currentChord = null;
 let lastNotes = [0,0,0];
 
+let chooseRandomNumber = function(weights){
+  let sum = 0;
+  let randomNumber = Math.random();
+  for(let [index, weight] of weights.slice(1)){
+    let newSum = sum + weigth;
+    if (sum <= randomNumber < newSum){
+      return index;
+    }
+  }
+}
+
 let goThroughModel = function(){
   let prediction = null;
   while(lastNotes.length > 2){
@@ -37,7 +48,8 @@ let goThroughModel = function(){
     lastNotes = lastNotes.slice(1);
   }
   prediction.print();
-  return Array.from(tf.argMax(prediction.reshape([13])).dataSync());
+  return chooseRandomNumber(Array.from(prediction.reshape([13]).dataSync()));
+//   return Array.from(tf.argMax().dataSync());
 }
 
 $(document).keypress(async function(e){
