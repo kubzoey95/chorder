@@ -33,7 +33,7 @@ let chooseRandomNumber = function(weights){
   let sum = 0;
   let randomNumber = Math.random();
   for(let [index, weight] of weights.slice(1).entries()){
-    let newSum = sum + weigth;
+    let newSum = sum + weight;
     if (sum <= randomNumber < newSum){
       return index;
     }
