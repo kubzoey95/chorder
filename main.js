@@ -31,7 +31,7 @@ let lastNotes = [0,0,0];
 
 let chooseRandomNumber = function(weights){
   let sum = 0;
-  let weightsEntries = weights.entries();
+  let weightsEntries = Array.from(weights.entries());
   weightsEntries.sort((e) => e[1]);
   weightsEntries = weightsEntries.slice(weightsEntries.length - 4);
   weightsEntries = weightsEntries.map((e) => [e[0], (e[1] - weightsEntries[0]) / (weightsEntries[weightsEntries.length - 1] - weightsEntries[0])]);
