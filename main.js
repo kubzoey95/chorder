@@ -16,6 +16,7 @@ let synth = 0;
 let loadSynth = async function(){
   
   synth = new Tone.Synth();
+  synth.volume.value = -6;
   synth.connect(new Tone.Freeverb().toMaster());
   console.log("Synth loaded!");
   console.log(synth);
