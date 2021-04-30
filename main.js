@@ -11,7 +11,7 @@ let loadModel = async function(){
 
 loadModel()
 
-let synth = null;
+let synth = 0;
 
 let loadSynth = async function(){
   synth = new Tone.Synth().toMaster();
