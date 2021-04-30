@@ -14,7 +14,9 @@ loadModel()
 let synth = 0;
 
 let loadSynth = async function(){
-  synth = new Tone.PluckSynth().toMaster();
+  
+  synth = new Tone.Synth();
+  synth.connect(new Tone.Freeverb().toMaster());
   console.log("Synth loaded!");
   console.log(synth);
 }
