@@ -49,12 +49,12 @@ let chooseRandomNumber = function(weights){
 let goThroughModel = function(){
   let prediction = null;
   while(lastNotes.length > 2){
-    let lastNotesTensor = tf.oneHot(tf.tensor2d([lastNotes.slice(0,3)], [1, 3], 'int32'), 13);
+    let lastNotesTensor = tf.oneHot(tf.tensor2d([lastNotes.slice(0,3)], [1, 3], 'int32'), 26);
     prediction = model.predict([lastNotesTensor]);
     lastNotes = lastNotes.slice(1);
     prediction.print();
   }
-  prediction && lastNotes.push(chooseRandomNumber(Array.from(prediction.reshape([13]).dataSync())));
+  prediction && lastNotes.push(chooseRandomNumber(Array.from(prediction.reshape([26]).dataSync())));
 //   return Array.from(tf.argMax().dataSync());
 }
 
@@ -65,9 +65,13 @@ $(document).keypress(async function(e){
   }
   let keyPressed = String.fromCharCode(e.keyCode || e.which).toLowerCase();
   if (KEY_TONE_MAPPING.hasOwnProperty(keyPressed) && currentTone !== KEY_TONE_MAPPING[keyPressed]){
-    currentTone = KEY_TONE_MAPPING[keyPressed];
+    let diff = KEY_TONE_MAPPING[keyPressed] - currentTone;
+    if (Math.abs(diff) > 12){
+      diff = KEY_TONE_MAPPING[keyPressed] - ((Math.floor(KEY_TONE_MAPPING[keyPressed] / 12) * 12) + (currentTone % 12));
+    }
+    currentTone += diff;
     synth && synth.triggerAttackRelease(Math.pow(2, (currentTone + 3) / 12) * 440.0, "8n", Tone.now());
-    lastNotes.push(currentTone + 1);
+    lastNotes.push(diff + 12 + 1);
     console.log(lastNotes);
   }
 
@@ -77,13 +81,13 @@ $(document).keyup(async function(e){
   let keyPressed = String.fromCharCode(e.keyCode || e.which).toLowerCase();
   console.log(keyPressed);
   if (KEY_TONE_MAPPING.hasOwnProperty(keyPressed)){
-//     synth && synth.triggerRelease(now);
-    currentTone = null;
+//     currentTone = null;
   }
   else {
     if (lastNotes.length > 2){
       goThroughModel();
     }
-    synth && synth.triggerAttackRelease(Math.pow(2, (lastNotes[lastNotes.length - 1] - 1 + 3) / 12) * 440.0, "8n", Tone.now());
+    currentTone += lastNotes[lastNotes.length - 1] - 1 - 12;
+    synth && synth.triggerAttackRelease(Math.pow(2, (currentTone + 3) / 12) * 440.0, "8n", Tone.now());
   }
 })
