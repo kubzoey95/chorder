@@ -91,6 +91,12 @@ $(document).keyup(async function(e){
       goThroughModel();
     }
     currentTone += lastNotes[lastNotes.length - 1] - 1 - 12;
+    if (currentTone > 40){
+      currentTone -= 12;
+    }
+    if (currentTone < -40){
+      currentTone += 12;
+    }
     synth && synth.triggerAttackRelease(Math.pow(2, (currentTone + 3) / 12) * 440.0, "8n", Tone.now());
   }
 })
