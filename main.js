@@ -57,7 +57,7 @@ const now = Tone.now();
 let currentTone = null;
 
 let currentChord = null;
-let lastNotes = [0,0,0,Math.floor(Math.random() * 24) - 12];
+let lastNotes = [0,0,0];
 
 let chooseRandomNumber = function(weights){
   let sum = 0;
