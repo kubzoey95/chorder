@@ -118,7 +118,7 @@ $(document).keyup(async function(e){
       goThroughModel();
     }
     currentTone += lastNotes[lastNotes.length - 1] - 1 - 12;
-    if (currentTone > 40){
+    if (currentTone > 30){
       currentTone -= 12;
     }
     if (currentTone < -20){
