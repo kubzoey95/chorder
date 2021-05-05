@@ -17,14 +17,11 @@ let loadSynth = async function(){
   
   synth = new Tone.Sampler({
 	urls: {
-		A1: "A1.mp3",
 		A2: "A2.mp3",
-    A3: "A3.mp3",
-    A4: "A4.mp3",
-    A5: "A5.mp3",
-    A6: "A6.mp3",
+		A4: "A4.mp3",
+		A6: "A6.mp3",
 	},
-	baseUrl: "https://github.com/nbrosowsky/tonejs-instruments/raw/master/samples/harp/"
+	baseUrl: "https://raw.githubusercontent.com/nbrosowsky/tonejs-instruments/master/samples/harp/"
 })
   synth.volume.value = -10;
   synth.connect(new Tone.Freeverb().toMaster());
