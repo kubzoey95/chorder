@@ -9,11 +9,6 @@ let loadModel = async function(){
   console.log(model);
 }
 
-const canvas = document.querySelector('canvas');
-const ctx = canvas.getContext('2d');
-ctx.fillStyle = 'green';
-ctx.fillRect(10, 10, 100, 100);
-
 loadModel()
 
 let synth = 0;
@@ -56,6 +51,19 @@ let loadSynth = async function(){
 
 loadSynth()
 
+const canvas = document.querySelector('canvas');
+const ctx = canvas.getContext('2d');
+
+let noteStack = [];
+
+let draw = function(){
+
+}
+
+let init = function(){
+  window.requestAnimationFrame(draw);
+}
+
 let toneStarted = false;
 const now = Tone.now();
 
@@ -63,6 +71,11 @@ let currentTone = null;
 
 let currentChord = null;
 let lastNotes = [0,0,0];
+
+let playAndPush = function(toneToPlay){
+  synth && synth.triggerAttackRelease(Math.pow(2, (toneToPlay + 3) / 12) * 440.0, 2, Tone.now());
+  noteStack.push(toneToPlay);
+}
 
 let chooseRandomNumber = function(weights){
   let sum = 0;
@@ -104,7 +117,7 @@ $(document).keypress(async function(e){
       diff = KEY_TONE_MAPPING[keyPressed] - ((Math.floor(KEY_TONE_MAPPING[keyPressed] / 12) * 12) + (currentTone % 12));
     }
     currentTone += diff;
-    synth && synth.triggerAttackRelease(Math.pow(2, (currentTone + 3) / 12) * 440.0, 2, Tone.now());
+    playAndPush(currentTone);
     lastNotes.push(diff + 12 + 1);
     console.log(lastNotes);
   }
@@ -127,6 +140,6 @@ $(document).keyup(async function(e){
     if (currentTone < -20){
       currentTone += 12;
     }
-    synth && synth.triggerAttackRelease(Math.pow(2, (currentTone + 3) / 12) * 440.0, 2, Tone.now());
+    playAndPush(currentTone);
   }
 })
