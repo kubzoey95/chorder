@@ -127,6 +127,9 @@ $(document).keypress(async function(e){
 $(document).keyup(async function(e){
   let keyPressed = String.fromCharCode(e.keyCode || e.which).toLowerCase();
   console.log(keyPressed);
+  if(typeof model === null){
+    return
+  }
   if (KEY_TONE_MAPPING.hasOwnProperty(keyPressed)){
   }
   else {
