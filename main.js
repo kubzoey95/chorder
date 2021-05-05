@@ -57,7 +57,7 @@ const now = Tone.now();
 let currentTone = null;
 
 let currentChord = null;
-let lastNotes = [0,0,0];
+let lastNotes = [0,0,0,Math.floor(Math.random() * 24) - 12];
 
 let chooseRandomNumber = function(weights){
   let sum = 0;
@@ -85,7 +85,6 @@ let goThroughModel = function(){
     prediction.print();
   }
   prediction && lastNotes.push(chooseRandomNumber(Array.from(prediction.reshape([26]).dataSync())));
-//   return Array.from(tf.argMax().dataSync());
 }
 
 $(document).keypress(async function(e){
@@ -111,7 +110,6 @@ $(document).keyup(async function(e){
   let keyPressed = String.fromCharCode(e.keyCode || e.which).toLowerCase();
   console.log(keyPressed);
   if (KEY_TONE_MAPPING.hasOwnProperty(keyPressed)){
-//     currentTone = null;
   }
   else {
     if (lastNotes.length > 2){
