@@ -56,8 +56,17 @@ const ctx = canvas.getContext('2d');
 
 let noteStack = [];
 
-let draw = function(){
+let lastTime = performance.now();
 
+let draw = function(){
+  let now = performance.now();
+  let deltaTime = now - lastTime;
+  lastTime = now;
+  noteStack = noteStack.filter(e => e.time > 0);
+  noteStack.forEach(function(e){
+	  e.time -= deltaTime;
+  });
+  console.log(noteStack);
 }
 
 let init = function(){
@@ -74,7 +83,7 @@ let lastNotes = [0,0,0];
 
 let playAndPush = function(toneToPlay){
   synth && synth.triggerAttackRelease(Math.pow(2, (toneToPlay + 3) / 12) * 440.0, 2, Tone.now());
-  noteStack.push({tone: toneToPlay, time: 1});
+  noteStack.push({tone: toneToPlay, time: 4000, close: 0});
 }
 
 let chooseRandomNumber = function(weights){
