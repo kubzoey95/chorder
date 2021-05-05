@@ -66,7 +66,7 @@ let draw = function(){
   noteStack.forEach(function(e){
 	  e.time -= deltaTime;
   });
-  console.log(noteStack);
+  ctx.fillRect(10, 10, 100, performance.now() % 100);
 }
 
 let init = function(){
