@@ -124,6 +124,6 @@ $(document).keyup(async function(e){
     if (currentTone < -20){
       currentTone += 12;
     }
-    synth && synth.triggerAttackRelease(Math.pow(2, (currentTone + 3) / 12) * 440.0, "8n", Tone.now());
+    synth && synth.triggerAttackRelease(Math.pow(2, (currentTone + 3) / 12) * 440.0, 2, Tone.now());
   }
 })
