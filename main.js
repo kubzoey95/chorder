@@ -58,6 +58,8 @@ let noteStack = [];
 
 let lastTime = performance.now();
 
+let refreshTime = 0;
+
 let draw = function(){
   let now = performance.now();
   let deltaTime = now - lastTime;
@@ -66,7 +68,14 @@ let draw = function(){
   noteStack.forEach(function(e){
 	  e.time -= deltaTime;
   });
-  ctx.fillRect(10, 10, 100, performance.now() % 100);
+  refreshTime += deltaTime;
+  if (refreshTime > 10){
+    const canvasW = canvas.getBoundingClientRect().width;
+    const canvasH = canvas.getBoundingClientRect().height;
+    ctx.clearRect(0, 0, canvasW, canvasH);
+    console.log(noteStack);
+  }
+  window.requestAnimationFrame(draw);
 }
 
 let init = function(){
