@@ -43,7 +43,7 @@ let loadSynth = async function(){
 	},
 	baseUrl: "https://raw.githubusercontent.com/nbrosowsky/tonejs-instruments/master/samples/harp/"
 })
-  synth.volume.value = -10;
+  synth.volume.value = -20;
   synth.connect(new Tone.Freeverb().toMaster());
   console.log("Synth loaded!");
   console.log(synth);
@@ -100,7 +100,7 @@ $(document).keypress(async function(e){
       diff = KEY_TONE_MAPPING[keyPressed] - ((Math.floor(KEY_TONE_MAPPING[keyPressed] / 12) * 12) + (currentTone % 12));
     }
     currentTone += diff;
-    synth && synth.triggerAttackRelease(Math.pow(2, (currentTone + 3) / 12) * 440.0, "8n", Tone.now());
+    synth && synth.triggerAttackRelease(Math.pow(2, (currentTone + 3) / 12) * 440.0, 2, Tone.now());
     lastNotes.push(diff + 12 + 1);
     console.log(lastNotes);
   }
