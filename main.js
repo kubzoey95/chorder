@@ -74,7 +74,7 @@ let lastNotes = [0,0,0];
 
 let playAndPush = function(toneToPlay){
   synth && synth.triggerAttackRelease(Math.pow(2, (toneToPlay + 3) / 12) * 440.0, 2, Tone.now());
-  noteStack.push(toneToPlay);
+  noteStack.push({tone: toneToPlay, time: 1});
 }
 
 let chooseRandomNumber = function(weights){
