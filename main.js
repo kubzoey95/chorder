@@ -73,6 +73,8 @@ let init = function(){
   window.requestAnimationFrame(draw);
 }
 
+init();
+
 let toneStarted = false;
 const now = Tone.now();
 
