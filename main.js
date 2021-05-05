@@ -64,12 +64,12 @@ let draw = function(){
   let now = performance.now();
   let deltaTime = now - lastTime;
   lastTime = now;
-  noteStack = noteStack.filter(e => e.time > 0);
-  noteStack.forEach(function(e){
-	  e.time -= deltaTime;
-  });
   refreshTime += deltaTime;
-  if (refreshTime > 10){
+  if (refreshTime > 100){
+    noteStack = noteStack.filter(e => e.time > 0);
+    noteStack.forEach(function(e){
+  	  e.time -= refreshTime;
+    });
     const canvasW = canvas.getBoundingClientRect().width;
     const canvasH = canvas.getBoundingClientRect().height;
     ctx.clearRect(0, 0, canvasW, canvasH);
