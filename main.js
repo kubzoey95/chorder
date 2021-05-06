@@ -63,7 +63,7 @@ const engine = new BABYLON.Engine(canvas, true);
 const createScene = function () {
     
 	const scene = new BABYLON.Scene(engine);
-	scene.clearColor = new BABYLON.Color3(1, 1, 1);
+	scene.clearColor = new BABYLON.Color3(0, 0, 0);
 	var catmullRom = BABYLON.Curve3.CreateCatmullRomSpline(
         [BABYLON.Vector3.Zero(),
         new BABYLON.Vector3(10, 1, 5),
