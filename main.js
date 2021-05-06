@@ -51,6 +51,12 @@ let loadSynth = async function(){
 
 loadSynth()
 
+let noteStack = [];
+
+let lastTime = performance.now();
+
+let refreshTime = 0;
+
 const canvas = document.querySelector('canvas');
 const engine = new BABYLON.Engine(canvas, true);
 
@@ -78,36 +84,6 @@ engine.runRenderLoop(function () {
 window.addEventListener("resize", function () {
 	engine.resize();
 });
-
-let noteStack = [];
-
-let lastTime = performance.now();
-
-let refreshTime = 0;
-
-let draw = function(){
-  let now = performance.now();
-  let deltaTime = now - lastTime;
-  lastTime = now;
-  refreshTime += deltaTime;
-  if (refreshTime > 100){
-    noteStack = noteStack.filter(e => e.time > 0);
-    noteStack.forEach(function(e){
-  	  e.time -= refreshTime;
-    });
-    const canvasW = canvas.getBoundingClientRect().width;
-    const canvasH = canvas.getBoundingClientRect().height;
-    ctx.clearRect(0, 0, canvasW, canvasH);
-    console.log(noteStack);
-  }
-  window.requestAnimationFrame(draw);
-}
-
-let init = function(){
-  window.requestAnimationFrame(draw);
-}
-
-init();
 
 let toneStarted = false;
 const now = Tone.now();
