@@ -66,9 +66,9 @@ let time = performance.now();
 const createScene = function () {
 	const scene = new BABYLON.Scene(engine);
 	scene.clearColor = new BABYLON.Color3(0, 0, 0);
-// 	for (let note of noteStack){
-// 		note.x -= 10 * timeDelta / 1000;
-// 	}
+	for (let note of noteStack){
+		note.x -= 10 * timeDelta / 1000;
+	}
 	var catmullRom = BABYLON.Curve3.CreateCatmullRomSpline(
         noteStack,
         60,
