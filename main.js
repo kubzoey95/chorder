@@ -211,10 +211,6 @@ let predictMelody = function(){
 let play = false;
 render();
 let playLoop = async function(){
-	if(!toneStarted){
-	    await Tone.start();
-	    toneStarted = true;
-	  }
 	while(!play){
 		await sleep(500);
 	}
@@ -224,6 +220,7 @@ let playLoop = async function(){
 		predictMelody();
 	}
 }
+playLoop();
 scene.onPointerObservable.add(function(e) => {
 			      if(!toneStarted){
 				    await Tone.start();
