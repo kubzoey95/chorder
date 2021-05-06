@@ -70,6 +70,7 @@ let path = []
 for (let i=0;i<20;i++){
 	path.push(BABYLON.Vector3.Zero());
 }
+let camera = null;
 const createScene = function () {
 	const scene = new BABYLON.Scene(engine);
 	scene.clearColor = new BABYLON.Color3(0, 0, 0);
@@ -79,7 +80,7 @@ const createScene = function () {
 // 		}
 // 		var catmullRomSpline = BABYLON.Mesh.CreateLines("catmullRom", catmullRom.getPoints(), scene);
 // 	}
-	var camera = new BABYLON.ArcRotateCamera('camera', Math.PI / 2, 0, 100, new BABYLON.Vector3(0, 0, 0), scene);
+	camera = new BABYLON.ArcRotateCamera('camera', Math.PI / 2, 0, 100, new BABYLON.Vector3(0, 0, 0), scene);
     	camera.mode = BABYLON.Camera.ORTHOGRAPHIC_CAMERA;
 // 	camera.attachControl(canvas, true);
 	catmullRomSpline = BABYLON.Mesh.CreateLines(null, path, null, null, catmullRomSpline);
@@ -89,14 +90,21 @@ const createScene = function () {
 const scene = createScene(); //Call the createScene function
 
 var updatePath = function(path) {
+	    let meanVect = 0;
+	    let cnt = 0;
 	    for (var i = 0; noteStack.length > 1 && i < noteStack.length && i < path.length; i++) {
+	      cnt += 1;
 	      var x = noteStack[noteStack.length - 1 - i].x;
 	      var z = noteStack[noteStack.length - 1 - i].z;
 	      var y = noteStack[noteStack.length - 1 - i].y;
 	      path[i].x = x;
 	      path[i].y = y;
 	      path[i].z = z;
+	      meanVect += z;
 	    }
+	if (cnt > 0){
+		camera.position.z += ((meanVect / cnt) - camera.position.z) * timeDelta / 100;
+	}
 };
 let render = function(){
 	catmullRomSpline = BABYLON.Mesh.CreateLines("catmullRomSpline", path, scene, true);
@@ -112,18 +120,6 @@ let render = function(){
 		for (let note of noteStack){
 			note.x += timeDelta / 10;
 		}
-// 		if (false && noteStack.length > 1){
-// 			catmullRom = BABYLON.Curve3.CreateCatmullRomSpline(noteStack, 60, false);
-// 			if (catmullRomSpline){
-// 				catmullRomSpline = BABYLON.Mesh.CreateLines(null, catmullRom.getPoints().slice(0, 120), null, null, catmullRomSpline);
-// 			}
-// 			else{
-// 				catmullRomSpline = BABYLON.Mesh.CreateLines("catmullRomSpline", catmullRom.getPoints().slice(0, 120), scene, true);
-// 			}
-// 			if (noteStack.length > 0 && noteStack[noteStack.length - 1].x > 300){
-// 				noteStack = noteStack.filter(e => e.x < 300);
-// 			}
-// 		}
 		scene.render();
 });
 
