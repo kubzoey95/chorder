@@ -62,20 +62,17 @@ const engine = new BABYLON.Engine(canvas, true);
 
 let timeDelta = 0;
 let time = performance.now();
-
+let catmullRom = null;
+let catmullRomSpline = null;
 const createScene = function () {
 	const scene = new BABYLON.Scene(engine);
 	scene.clearColor = new BABYLON.Color3(0, 0, 0);
-	if (noteStack.length > 0){
-		for (let note of noteStack){
-			note.x -= 10 * timeDelta / 1000;
-		}
-		var catmullRom = BABYLON.Curve3.CreateCatmullRomSpline(
-		noteStack,
-		60,
-		true);
-		var catmullRomSpline = BABYLON.Mesh.CreateLines("catmullRom", catmullRom.getPoints(), scene);
-	}
+// 	if (noteStack.length > 0){
+// 		for (let note of noteStack){
+// 			note.x -= 10 * timeDelta / 1000;
+// 		}
+// 		var catmullRomSpline = BABYLON.Mesh.CreateLines("catmullRom", catmullRom.getPoints(), scene);
+// 	}
 	var camera = new BABYLON.ArcRotateCamera('camera', Math.PI / 2, 0, 100, new BABYLON.Vector3(0, 0, 0), scene);
     	camera.mode = BABYLON.Camera.ORTHOGRAPHIC_CAMERA;
 // 	camera.attachControl(canvas, true);
@@ -90,7 +87,15 @@ engine.runRenderLoop(function () {
 	let perf = performance.now();
 	timeDelta = perf - time;
 	time = perf;
+	for (let note of noteStack){
+		note.x += timeDelta / 100;
+	}
+	catmullRom = BABYLON.Curve3.CreateCatmullRomSpline(noteStack, 60, true);
+	catmullRomSpline = BABYLON.Mesh.CreateLines("catmullRom", catmullRom.getPoints(), scene);
 	scene.render();
+	if (noteStack && noteStack[noteStack.length - 1] > 300){
+		noteStack = noteStack.filter(e => e.x < 300);
+	}
 });
 
 // Watch for browser/canvas resize events
