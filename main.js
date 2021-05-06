@@ -103,7 +103,7 @@ var updatePath = function(path) {
 	      meanVect += z;
 	    }
 	if (cnt > 0){
-		camera.position = new BABYLON.Vector3(camera.position.x, camera.position.y, camera.position.z + ((meanVect / cnt) - camera.position.z) * timeDelta);
+		camera.position.z = camera.position.z + ((meanVect / cnt) - camera.position.z) * timeDelta;
 	}
 };
 let render = function(){
