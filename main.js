@@ -217,7 +217,8 @@ let playLoop = async function(){
 		predictMelody();
 	}
 }
-$(canvas).mousedown(playLoop);
+scene.onPointerObservable.add(playLoop);
+// $(canvas).mousedown(playLoop);
 $(document).keyup(async function(e){
   let keyPressed = String.fromCharCode(e.keyCode || e.which).toLowerCase();
   console.log(keyPressed);
