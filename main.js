@@ -66,17 +66,19 @@ let time = performance.now();
 const createScene = function () {
 	const scene = new BABYLON.Scene(engine);
 	scene.clearColor = new BABYLON.Color3(0, 0, 0);
-	for (let note of noteStack){
-		note.x -= 10 * timeDelta / 1000;
+	if (noteStack.length > 0){
+		for (let note of noteStack){
+			note.x -= 10 * timeDelta / 1000;
+		}
+		var catmullRom = BABYLON.Curve3.CreateCatmullRomSpline(
+		noteStack,
+		60,
+		true);
+		var catmullRomSpline = BABYLON.Mesh.CreateLines("catmullRom", catmullRom.getPoints(), scene);
 	}
-	var catmullRom = BABYLON.Curve3.CreateCatmullRomSpline(
-        noteStack,
-        60,
-        true);
 	var camera = new BABYLON.ArcRotateCamera('camera', Math.PI / 2, 0, 100, new BABYLON.Vector3(0, 0, 0), scene);
     	camera.mode = BABYLON.Camera.ORTHOGRAPHIC_CAMERA;
 // 	camera.attachControl(canvas, true);
-	var catmullRomSpline = BABYLON.Mesh.CreateLines("catmullRom", catmullRom.getPoints(), scene);
 
 	return scene;
 };
