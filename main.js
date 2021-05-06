@@ -221,7 +221,7 @@ let playLoop = async function(){
 	}
 }
 playLoop();
-scene.onPointerObservable.add(function(e) => {
+scene.onPointerObservable.add(function(e){
 			      if(!toneStarted){
 				    await Tone.start();
 				    toneStarted = true;
