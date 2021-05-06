@@ -44,7 +44,7 @@ let loadSynth = async function(){
 	baseUrl: "https://raw.githubusercontent.com/nbrosowsky/tonejs-instruments/master/samples/harp/"
 })
   synth.volume.value = -20;
-  synth.connect(new Tone.Freeverb({roomSize : 2 , dampening : 2000}).toMaster());
+  synth.connect(new Tone.Freeverb({roomSize : 0.9 , dampening : 2000}).toMaster());
   console.log("Synth loaded!");
   console.log(synth);
 }
