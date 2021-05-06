@@ -44,7 +44,7 @@ let loadSynth = async function(){
 	baseUrl: "https://raw.githubusercontent.com/nbrosowsky/tonejs-instruments/master/samples/harp/"
 })
   synth.volume.value = -20;
-  synth.connect(new Tone.Freeverb({roomSize : 0.9 , dampening : 2000}).toMaster());
+  synth.connect(new Tone.Freeverb({roomSize : 0.8 , dampening : 2000}).toMaster());
   console.log("Synth loaded!");
   console.log(synth);
 }
@@ -94,7 +94,7 @@ let currentChord = null;
 let lastNotes = [0,0,0];
 
 let playAndPush = function(toneToPlay){
-  synth && synth.triggerAttackRelease(Math.pow(2, (toneToPlay + 3) / 12) * 440.0, 2, Tone.now());
+  synth && synth.triggerAttackRelease(Math.pow(2, (toneToPlay + 3) / 12) * 440.0, 5, Tone.now());
   noteStack.push({tone: toneToPlay, time: 4000, close: 0});
 }
 
