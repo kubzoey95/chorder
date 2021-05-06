@@ -216,7 +216,9 @@ let playLoop = async function(){
 	while(!play){
 		await sleep(500);
 	}
-	playAndPush(Math.floor(Math.random() * 12));
+	let firstNote = Math.floor(Math.random() * 24) - 12;
+	playAndPush(firstNote);
+	lastNotes.push(firstNote + 12 + 1);
 	while(play){
 		await sleep(500);
 		predictMelody();
