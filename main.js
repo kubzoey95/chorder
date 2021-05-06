@@ -208,16 +208,29 @@ let predictMelody = function(){
     playAndPush(currentTone);
 }
 
-let play = true;
-
+let play = false;
+render();
 let playLoop = async function(){
+	if(!toneStarted){
+	    await Tone.start();
+	    toneStarted = true;
+	  }
+	while(!play){
+		await sleep(500);
+	}
 	playAndPush(Math.floor(Math.random() * 12));
 	while(play){
 		await sleep(500);
 		predictMelody();
 	}
 }
-scene.onPointerObservable.add(playLoop);
+scene.onPointerObservable.add(function(e) => {
+			      if(!toneStarted){
+				    await Tone.start();
+				    toneStarted = true;
+				}
+			      play = true;
+			      });
 // $(canvas).mousedown(playLoop);
 $(document).keyup(async function(e){
   let keyPressed = String.fromCharCode(e.keyCode || e.which).toLowerCase();
