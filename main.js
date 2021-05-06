@@ -82,6 +82,28 @@ const createScene = function () {
 
 const scene = createScene(); //Call the createScene function
 
+let path = [BABYLON.Vector3.Zero(), BABYLON.Vector3.Zero(), BABYLON.Vector3.Zero(), BABYLON.Vector3.Zero()]
+
+catmullRomSpline = BABYLON.Mesh.CreateLines("catmullRomSpline", path, scene, true);
+
+var updatePath = function(path, k) {
+    for (var i = 0; i < path.length; i++) {
+      var x = path[i].x;
+      var z = path[i].z;
+      var y = 5 * Math.sin(i / 3 + k);
+      path[i].x = x;
+      path[i].y = y;
+      path[i].z = z;
+    }
+};
+
+scene.registerBeforeRender(function() {
+    updatePath(path, k);
+    //updateLines(mesh, path);
+    
+    catmullRomSpline = BABYLON.Mesh.CreateLines(null, path, null, null, catmullRomSpline);
+    k += 0.05;
+});
 // Register a render loop to repeatedly render the scene
 engine.runRenderLoop(function () {
 	let perf = performance.now();
@@ -90,7 +112,7 @@ engine.runRenderLoop(function () {
 	for (let note of noteStack){
 		note.x += timeDelta / 10;
 	}
-	if (noteStack.length > 1){
+	if (false && noteStack.length > 1){
 		catmullRom = BABYLON.Curve3.CreateCatmullRomSpline(noteStack, 60, false);
 		if (catmullRomSpline){
 			catmullRomSpline = BABYLON.Mesh.CreateLines(null, catmullRom.getPoints().slice(0, 120), null, null, catmullRomSpline);
