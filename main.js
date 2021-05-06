@@ -96,7 +96,7 @@ var updatePath = function(path, k) {
       path[i].z = z;
     }
 };
-
+let k = 0;
 scene.registerBeforeRender(function() {
     updatePath(path, k);
     //updateLines(mesh, path);
