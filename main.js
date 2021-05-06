@@ -100,10 +100,10 @@ var updatePath = function(path) {
 	      path[i].x = x;
 	      path[i].y = y;
 	      path[i].z = z;
-	      meanVect += z;
+	      meanVect += y;
 	    }
 	if (cnt > 0){
-		camera.position.z += ((meanVect / cnt) - camera.position.z) * timeDelta / 100;
+		camera.position.y += ((meanVect / cnt) - camera.position.y) * timeDelta;
 	}
 };
 let render = function(){
