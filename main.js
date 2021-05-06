@@ -104,9 +104,9 @@ let render = function(){
 		let perf = performance.now();
 		timeDelta = perf - time;
 		time = perf;
-// 		for (let note of noteStack){
-// 			note.x += timeDelta / 10;
-// 		}
+		for (let note of noteStack){
+			note.x += timeDelta / 10;
+		}
 // 		if (false && noteStack.length > 1){
 // 			catmullRom = BABYLON.Curve3.CreateCatmullRomSpline(noteStack, 60, false);
 // 			if (catmullRomSpline){
