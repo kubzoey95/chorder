@@ -87,10 +87,10 @@ let path = [BABYLON.Vector3.Zero(), BABYLON.Vector3.Zero(), BABYLON.Vector3.Zero
 catmullRomSpline = BABYLON.Mesh.CreateLines("catmullRomSpline", path, scene, true);
 
 var updatePath = function(path, k) {
-    for (var i = 0; i < path.length; i++) {
-      var x = path[i].x;
-      var z = path[i].z;
-      var y = 5 * Math.sin(i / 3 + k);
+    for (var i = 0; noteStack.length > 1 && i < path.length; i++) {
+      var x = noteStack[i].x;
+      var z = noteStack[i].z;
+      var y = noteStack[i].y;
       path[i].x = x;
       path[i].y = y;
       path[i].z = z;
