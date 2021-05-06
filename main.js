@@ -73,8 +73,9 @@ const createScene = function () {
         ],
         60,
         true);
-	const camera = new BABYLON.ArcRotateCamera("camera", -Math.PI / 2, Math.PI / 2.5, 15, new BABYLON.Vector3(0, 0, 0));
-	camera.attachControl(canvas, true);
+	var camera = new BABYLON.ArcRotateCamera('camera', Math.PI / 2, 0, 100, new BABYLON.Vector3(0, 100, 0), scene);
+    	camera.mode = BABYLON.Camera.ORTHOGRAPHIC_CAMERA;
+// 	camera.attachControl(canvas, true);
 	var catmullRomSpline = BABYLON.Mesh.CreateLines("catmullRom", catmullRom.getPoints(), scene);
 
 	return scene;
