@@ -64,6 +64,7 @@ let timeDelta = 0;
 let time = performance.now();
 let catmullRom = null;
 let catmullRomSpline = null;
+let path = [BABYLON.Vector3.Zero(), BABYLON.Vector3.Zero(), BABYLON.Vector3.Zero(), BABYLON.Vector3.Zero(), BABYLON.Vector3.Zero(), BABYLON.Vector3.Zero(), BABYLON.Vector3.Zero()]
 
 const createScene = function () {
 	const scene = new BABYLON.Scene(engine);
@@ -83,7 +84,6 @@ const createScene = function () {
 
 const scene = createScene(); //Call the createScene function
 
-let path = [BABYLON.Vector3.Zero(), BABYLON.Vector3.Zero(), BABYLON.Vector3.Zero(), BABYLON.Vector3.Zero(), BABYLON.Vector3.Zero(), BABYLON.Vector3.Zero(), BABYLON.Vector3.Zero()]
 var updatePath = function(path) {
 	    for (var i = 0; noteStack.length > 1 && i < noteStack.length && i < path.length; i++) {
 	      var x = noteStack[noteStack.length - 1 - i].x;
