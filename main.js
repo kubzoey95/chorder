@@ -1,6 +1,8 @@
 const KEY_TONE_MAPPING = {       "2": 1,       "3": 3,               "5": 6,       "6": 8,       "7": 10,         // black keys
                           "q": 0,       "w": 2,       "e": 4, "r": 5,       "t": 7,       "y": 9,        "u": 11} // white keys
-
+function sleep(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
 let model = null;
 let loadModel = async function(){
   model = await tf.loadLayersModel('https://raw.githubusercontent.com/kubzoey95/chorder/main/model.json');
@@ -215,7 +217,7 @@ let playLoop = async function(){
 		predictMelody();
 	}
 }
-$(document).mousedown(playLoop);
+$(canvas).mousedown(playLoop);
 $(document).keyup(async function(e){
   let keyPressed = String.fromCharCode(e.keyCode || e.which).toLowerCase();
   console.log(keyPressed);
