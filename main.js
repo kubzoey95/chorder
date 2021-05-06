@@ -59,17 +59,18 @@ let refreshTime = 0;
 
 const canvas = document.querySelector('canvas');
 const engine = new BABYLON.Engine(canvas, true);
+const scene = new BABYLON.Scene(engine);
+scene.clearColor = new BABYLON.Color3(0, 0, 0);
 
 const createScene = function () {
-    
-	const scene = new BABYLON.Scene(engine);
-	scene.clearColor = new BABYLON.Color3(0, 0, 0);
+	var pickResult = scene.pick(scene.getEngine().getRenderingCanvasClientRect().width, scene.getEngine().getRenderingCanvasClientRect().height);
+	let position = pickResult.ray.origin + pickResult.ray.direction * 1;
 	var catmullRom = BABYLON.Curve3.CreateCatmullRomSpline(
         [BABYLON.Vector3.Zero(),
         new BABYLON.Vector3(10, 1, 5),
         new BABYLON.Vector3(20, 16, 20),
         new BABYLON.Vector3(25, -21, 15),
-        new BABYLON.Vector3(600, 30, 0)
+        position
         ],
         60,
         true);
