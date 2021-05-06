@@ -88,16 +88,16 @@ engine.runRenderLoop(function () {
 	timeDelta = perf - time;
 	time = perf;
 	for (let note of noteStack){
-		note.x += timeDelta / 100;
+		note.x += timeDelta / 10;
 	}
 	if (noteStack.length > 0){
 		catmullRom = BABYLON.Curve3.CreateCatmullRomSpline(noteStack, 60, true);
 		catmullRomSpline = BABYLON.Mesh.CreateLines("catmullRom", catmullRom.getPoints(), scene);
-		scene.render();
 		if (noteStack.length > 0 && noteStack[noteStack.length - 1] > 300){
 			noteStack = noteStack.filter(e => e.x < 300);
 		}
 	}
+	scene.render();
 });
 
 // Watch for browser/canvas resize events
