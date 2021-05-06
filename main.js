@@ -63,18 +63,15 @@ const engine = new BABYLON.Engine(canvas, true);
 const createScene = function () {
 	const scene = new BABYLON.Scene(engine);
 	scene.clearColor = new BABYLON.Color3(0, 0, 0);
-	var pickResult = scene.pick(scene.getEngine().getRenderingCanvasClientRect().width, scene.getEngine().getRenderingCanvasClientRect().height);
-	let position = pickResult.ray.origin + pickResult.ray.direction * 1;
 	var catmullRom = BABYLON.Curve3.CreateCatmullRomSpline(
         [BABYLON.Vector3.Zero(),
         new BABYLON.Vector3(10, 1, 5),
         new BABYLON.Vector3(20, 16, 20),
         new BABYLON.Vector3(25, -21, 15),
-        position
         ],
         60,
         true);
-	var camera = new BABYLON.ArcRotateCamera('camera', Math.PI / 2, 0, 100, new BABYLON.Vector3(0, 100, 0), scene);
+	var camera = new BABYLON.ArcRotateCamera('camera', Math.PI / 2, 0, 100, new BABYLON.Vector3(0, 0, 0), scene);
     	camera.mode = BABYLON.Camera.ORTHOGRAPHIC_CAMERA;
 // 	camera.attachControl(canvas, true);
 	var catmullRomSpline = BABYLON.Mesh.CreateLines("catmullRom", catmullRom.getPoints(), scene);
