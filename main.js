@@ -192,15 +192,7 @@ $(document).keypress(async function(e){
 
 })
 
-$(document).keyup(async function(e){
-  let keyPressed = String.fromCharCode(e.keyCode || e.which).toLowerCase();
-  console.log(keyPressed);
-  if(typeof model === null){
-    return
-  }
-  if (KEY_TONE_MAPPING.hasOwnProperty(keyPressed)){
-  }
-  else {
+let predictMelody = function(){
     if (lastNotes.length > 2){
       goThroughModel();
     }
@@ -212,5 +204,26 @@ $(document).keyup(async function(e){
       currentTone += 12;
     }
     playAndPush(currentTone);
+}
+
+let play = true;
+
+let playLoop = async function(){
+	playAndPush(Math.floor(Math.random() * 12));
+	while(play){
+		predictMelody();
+	}
+}
+$(document).mousedown(playLoop);
+$(document).keyup(async function(e){
+  let keyPressed = String.fromCharCode(e.keyCode || e.which).toLowerCase();
+  console.log(keyPressed);
+  if(typeof model === null){
+    return
+  }
+  if (KEY_TONE_MAPPING.hasOwnProperty(keyPressed)){
+  }
+  else {
+    predictMelody();
   }
 })
