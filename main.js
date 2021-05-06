@@ -62,15 +62,22 @@ const engine = new BABYLON.Engine(canvas, true);
 
 const createScene = function () {
     
-            const scene = new BABYLON.Scene(engine);  
+	const scene = new BABYLON.Scene(engine);
+	scene.clearColor = new BABYLON.Color3(1, 1, 1);
+	var catmullRom = BABYLON.Curve3.CreateCatmullRomSpline(
+        [BABYLON.Vector3.Zero(),
+        new BABYLON.Vector3(10, 1, 5),
+        new BABYLON.Vector3(20, 16, 20),
+        new BABYLON.Vector3(25, -21, 15),
+        new BABYLON.Vector3(35, 30, 0)
+        ],
+        60,
+        true);
+	const camera = new BABYLON.ArcRotateCamera("camera", -Math.PI / 2, Math.PI / 2.5, 15, new BABYLON.Vector3(0, 0, 0));
+	camera.attachControl(canvas, true);
+	var catmullRomSpline = BABYLON.Mesh.CreateLines("catmullRom", catmullRom.getPoints(), scene);
 
-            BABYLON.SceneLoader.ImportMeshAsync("", "https://assets.babylonjs.com/meshes/", "box.babylon");
-
-            const camera = new BABYLON.ArcRotateCamera("camera", -Math.PI / 2, Math.PI / 2.5, 15, new BABYLON.Vector3(0, 0, 0));
-            camera.attachControl(canvas, true);
-            const light = new BABYLON.HemisphericLight("light", new BABYLON.Vector3(1, 1, 0));
-
-            return scene;
+	return scene;
 };
 
 const scene = createScene(); //Call the createScene function
