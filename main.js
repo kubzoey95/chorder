@@ -97,6 +97,7 @@ var updatePath = function(path) {
 let render = function(){
 	catmullRomSpline = BABYLON.Mesh.CreateLines("catmullRomSpline", path, scene, true);
 	scene.registerBeforeRender(function() {
+	    updatePath(path);
 	    catmullRomSpline = BABYLON.Mesh.CreateLines(null, path, null, null, catmullRomSpline);
 	});
 	// Register a render loop to repeatedly render the scene
@@ -141,7 +142,6 @@ let lastNotes = [0,0,0];
 let playAndPush = function(toneToPlay){
   synth && synth.triggerAttackRelease(Math.pow(2, (toneToPlay + 3) / 12) * 440.0, 5, Tone.now());
   noteStack.push(new BABYLON.Vector3(-250, 0, -(toneToPlay - 10) * 3));
-  updatePath(path);
 }
 
 let chooseRandomNumber = function(weights){
