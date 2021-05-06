@@ -141,7 +141,7 @@ let lastNotes = [0,0,0];
 
 let playAndPush = function(toneToPlay){
   synth && synth.triggerAttackRelease(Math.pow(2, (toneToPlay + 3) / 12) * 440.0, 5, Tone.now());
-  noteStack.push(new BABYLON.Vector3(-250, 0, -(toneToPlay - 10) * 3));
+  noteStack.push(new BABYLON.Vector3(-engine.getRenderWidth() / 2, 0, -(toneToPlay - 10) * 3));
 }
 
 let chooseRandomNumber = function(weights){
