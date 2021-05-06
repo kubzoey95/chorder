@@ -69,7 +69,7 @@ const createScene = function () {
         new BABYLON.Vector3(10, 1, 5),
         new BABYLON.Vector3(20, 16, 20),
         new BABYLON.Vector3(25, -21, 15),
-        new BABYLON.Vector3(35, 30, 0)
+        new BABYLON.Vector3(600, 30, 0)
         ],
         60,
         true);
