@@ -66,7 +66,7 @@ const createScene = function () {
 	var catmullRom = BABYLON.Curve3.CreateCatmullRomSpline(
         [BABYLON.Vector3.Zero(),
         new BABYLON.Vector3(0, 0, 1),
-        new BABYLON.Vector3(300, 16, 20),
+        new BABYLON.Vector3(300, 150, 20),
         new BABYLON.Vector3(25, -21, 15),
         ],
         60,
