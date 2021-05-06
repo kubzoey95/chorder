@@ -87,7 +87,7 @@ let path = [BABYLON.Vector3.Zero(), BABYLON.Vector3.Zero(), BABYLON.Vector3.Zero
 catmullRomSpline = BABYLON.Mesh.CreateLines("catmullRomSpline", path, scene, true);
 
 var updatePath = function(path, k) {
-    for (var i = 0; noteStack.length > 1 && i < path.length; i++) {
+    for (var i = 0; noteStack.length > 1 && i < noteStack.length; i++) {
       var x = noteStack[i].x;
       var z = noteStack[i].z;
       var y = noteStack[i].y;
@@ -102,7 +102,6 @@ scene.registerBeforeRender(function() {
     //updateLines(mesh, path);
     
     catmullRomSpline = BABYLON.Mesh.CreateLines(null, path, null, null, catmullRomSpline);
-    k += 0.05;
 });
 // Register a render loop to repeatedly render the scene
 engine.runRenderLoop(function () {
