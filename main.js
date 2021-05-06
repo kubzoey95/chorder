@@ -60,15 +60,17 @@ let refreshTime = 0;
 const canvas = document.querySelector('canvas');
 const engine = new BABYLON.Engine(canvas, true);
 
+let timeDelta = 0;
+let time = performance.now();
+
 const createScene = function () {
 	const scene = new BABYLON.Scene(engine);
 	scene.clearColor = new BABYLON.Color3(0, 0, 0);
+	for (let note of noteStack){
+		note.x -= 10 * timeDelta / 1000;
+	}
 	var catmullRom = BABYLON.Curve3.CreateCatmullRomSpline(
-        [BABYLON.Vector3.Zero(),
-        new BABYLON.Vector3(0, 0, 1),
-        new BABYLON.Vector3(300, 0, 150),
-        new BABYLON.Vector3(25, -21, 15),
-        ],
+        noteStack,
         60,
         true);
 	var camera = new BABYLON.ArcRotateCamera('camera', Math.PI / 2, 0, 100, new BABYLON.Vector3(0, 0, 0), scene);
@@ -83,6 +85,9 @@ const scene = createScene(); //Call the createScene function
 
 // Register a render loop to repeatedly render the scene
 engine.runRenderLoop(function () {
+	let perf = performance.now();
+	timeDelta = perf - time;
+	time = perf;
 	scene.render();
 });
 
@@ -101,7 +106,7 @@ let lastNotes = [0,0,0];
 
 let playAndPush = function(toneToPlay){
   synth && synth.triggerAttackRelease(Math.pow(2, (toneToPlay + 3) / 12) * 440.0, 5, Tone.now());
-  noteStack.push({tone: toneToPlay, time: 4000, close: 0});
+  noteStack.push(new BABYLON.Vector3(-250, 0, -(toneToPlay - 10) * 3));
 }
 
 let chooseRandomNumber = function(weights){
