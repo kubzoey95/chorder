@@ -90,7 +90,7 @@ engine.runRenderLoop(function () {
 	for (let note of noteStack){
 		note.x += timeDelta / 10;
 	}
-	if (noteStack.length > 0){
+	if (noteStack.length > 1){
 		catmullRom = BABYLON.Curve3.CreateCatmullRomSpline(noteStack, 60, false);
 		if (catmullRomSpline){
 			catmullRomSpline = BABYLON.Mesh.CreateLines("catmullRom", {points: catmullRom.getPoints(), updatable: true, instance: catmullRomSpline});
