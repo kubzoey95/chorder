@@ -64,6 +64,7 @@ let timeDelta = 0;
 let time = performance.now();
 let catmullRom = null;
 let catmullRomSpline = null;
+
 const createScene = function () {
 	const scene = new BABYLON.Scene(engine);
 	scene.clearColor = new BABYLON.Color3(0, 0, 0);
@@ -76,60 +77,58 @@ const createScene = function () {
 	var camera = new BABYLON.ArcRotateCamera('camera', Math.PI / 2, 0, 100, new BABYLON.Vector3(0, 0, 0), scene);
     	camera.mode = BABYLON.Camera.ORTHOGRAPHIC_CAMERA;
 // 	camera.attachControl(canvas, true);
-
+	catmullRomSpline = BABYLON.Mesh.CreateLines(null, path, null, null, catmullRomSpline);
 	return scene;
 };
 
 const scene = createScene(); //Call the createScene function
 
-let path = [BABYLON.Vector3.Zero(), BABYLON.Vector3.Zero(), BABYLON.Vector3.Zero(), BABYLON.Vector3.Zero()]
-
-catmullRomSpline = BABYLON.Mesh.CreateLines("catmullRomSpline", path, scene, true);
-
-var updatePath = function(path, k) {
-    for (var i = 0; noteStack.length > 1 && i < noteStack.length && i < path.length; i++) {
-      var x = noteStack[noteStack.length - 1 - i].x;
-      var z = noteStack[noteStack.length - 1 - i].z;
-      var y = noteStack[noteStack.length - 1 - i].y;
-      path[i].x = x;
-      path[i].y = y;
-      path[i].z = z;
-    }
+let path = [BABYLON.Vector3.Zero(), BABYLON.Vector3.Zero(), BABYLON.Vector3.Zero(), BABYLON.Vector3.Zero(), BABYLON.Vector3.Zero(), BABYLON.Vector3.Zero(), BABYLON.Vector3.Zero()]
+var updatePath = function(path) {
+	    for (var i = 0; noteStack.length > 1 && i < noteStack.length && i < path.length; i++) {
+	      var x = noteStack[noteStack.length - 1 - i].x;
+	      var z = noteStack[noteStack.length - 1 - i].z;
+	      var y = noteStack[noteStack.length - 1 - i].y;
+	      path[i].x = x;
+	      path[i].y = y;
+	      path[i].z = z;
+	    }
 };
-let k = 0;
-scene.registerBeforeRender(function() {
-    updatePath(path, k);
-    //updateLines(mesh, path);
-    
-    catmullRomSpline = BABYLON.Mesh.CreateLines(null, path, null, null, catmullRomSpline);
-});
-// Register a render loop to repeatedly render the scene
-engine.runRenderLoop(function () {
-	let perf = performance.now();
-	timeDelta = perf - time;
-	time = perf;
-	for (let note of noteStack){
-		note.x += timeDelta / 10;
-	}
-	if (false && noteStack.length > 1){
-		catmullRom = BABYLON.Curve3.CreateCatmullRomSpline(noteStack, 60, false);
-		if (catmullRomSpline){
-			catmullRomSpline = BABYLON.Mesh.CreateLines(null, catmullRom.getPoints().slice(0, 120), null, null, catmullRomSpline);
-		}
-		else{
-			catmullRomSpline = BABYLON.Mesh.CreateLines("catmullRomSpline", catmullRom.getPoints().slice(0, 120), scene, true);
-		}
-		if (noteStack.length > 0 && noteStack[noteStack.length - 1].x > 300){
-			noteStack = noteStack.filter(e => e.x < 300);
-		}
-	}
-	scene.render();
+let render = function(){
+	catmullRomSpline = BABYLON.Mesh.CreateLines("catmullRomSpline", path, scene, true);
+	scene.registerBeforeRender(function() {
+	    catmullRomSpline = BABYLON.Mesh.CreateLines(null, path, null, null, catmullRomSpline);
+	});
+	// Register a render loop to repeatedly render the scene
+	engine.runRenderLoop(function () {
+		let perf = performance.now();
+		timeDelta = perf - time;
+		time = perf;
+// 		for (let note of noteStack){
+// 			note.x += timeDelta / 10;
+// 		}
+// 		if (false && noteStack.length > 1){
+// 			catmullRom = BABYLON.Curve3.CreateCatmullRomSpline(noteStack, 60, false);
+// 			if (catmullRomSpline){
+// 				catmullRomSpline = BABYLON.Mesh.CreateLines(null, catmullRom.getPoints().slice(0, 120), null, null, catmullRomSpline);
+// 			}
+// 			else{
+// 				catmullRomSpline = BABYLON.Mesh.CreateLines("catmullRomSpline", catmullRom.getPoints().slice(0, 120), scene, true);
+// 			}
+// 			if (noteStack.length > 0 && noteStack[noteStack.length - 1].x > 300){
+// 				noteStack = noteStack.filter(e => e.x < 300);
+// 			}
+// 		}
+		scene.render();
 });
 
 // Watch for browser/canvas resize events
 window.addEventListener("resize", function () {
 	engine.resize();
 });
+}
+
+
 
 let toneStarted = false;
 const now = Tone.now();
@@ -142,6 +141,7 @@ let lastNotes = [0,0,0];
 let playAndPush = function(toneToPlay){
   synth && synth.triggerAttackRelease(Math.pow(2, (toneToPlay + 3) / 12) * 440.0, 5, Tone.now());
   noteStack.push(new BABYLON.Vector3(-250, 0, -(toneToPlay - 10) * 3));
+  updatePath(path);
 }
 
 let chooseRandomNumber = function(weights){
@@ -176,6 +176,7 @@ $(document).keypress(async function(e){
   if(!toneStarted){
     await Tone.start();
     toneStarted = true;
+    render();
   }
   let keyPressed = String.fromCharCode(e.keyCode || e.which).toLowerCase();
   if (KEY_TONE_MAPPING.hasOwnProperty(keyPressed) && currentTone !== KEY_TONE_MAPPING[keyPressed]){
