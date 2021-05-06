@@ -46,7 +46,7 @@ let loadSynth = async function(){
 	baseUrl: "https://raw.githubusercontent.com/nbrosowsky/tonejs-instruments/master/samples/harp/"
 })
   synth.volume.value = -30;
-  synth.connect(new Tone.Freeverb({roomSize : 0.8 , dampening : 2000}).toMaster());
+  synth.connect(new Tone.Freeverb({roomSize : 0.9 , dampening : 2000}).toMaster());
   console.log("Synth loaded!");
   console.log(synth);
 }
@@ -66,8 +66,10 @@ let timeDelta = 0;
 let time = performance.now();
 let catmullRom = null;
 let catmullRomSpline = null;
-let path = [BABYLON.Vector3.Zero(), BABYLON.Vector3.Zero(), BABYLON.Vector3.Zero(), BABYLON.Vector3.Zero(), BABYLON.Vector3.Zero(), BABYLON.Vector3.Zero(), BABYLON.Vector3.Zero()]
-
+let path = []
+for (let i=0;i<20;i++){
+	path.push(BABYLON.Vector3.Zero());
+}
 const createScene = function () {
 	const scene = new BABYLON.Scene(engine);
 	scene.clearColor = new BABYLON.Color3(0, 0, 0);
@@ -174,25 +176,25 @@ let goThroughModel = function(){
   prediction && lastNotes.push(chooseRandomNumber(Array.from(prediction.reshape([26]).dataSync())));
 }
 
-$(document).keypress(async function(e){
-  if(!toneStarted){
-    await Tone.start();
-    toneStarted = true;
-    render();
-  }
-  let keyPressed = String.fromCharCode(e.keyCode || e.which).toLowerCase();
-  if (KEY_TONE_MAPPING.hasOwnProperty(keyPressed) && currentTone !== KEY_TONE_MAPPING[keyPressed]){
-    let diff = KEY_TONE_MAPPING[keyPressed] - currentTone;
-    if (Math.abs(diff) > 12){
-      diff = KEY_TONE_MAPPING[keyPressed] - ((Math.floor(KEY_TONE_MAPPING[keyPressed] / 12) * 12) + (currentTone % 12));
-    }
-    currentTone += diff;
-    playAndPush(currentTone);
-    lastNotes.push(diff + 12 + 1);
-    console.log(lastNotes);
-  }
+// $(document).keypress(async function(e){
+//   if(!toneStarted){
+//     await Tone.start();
+//     toneStarted = true;
+//     render();
+//   }
+//   let keyPressed = String.fromCharCode(e.keyCode || e.which).toLowerCase();
+//   if (KEY_TONE_MAPPING.hasOwnProperty(keyPressed) && currentTone !== KEY_TONE_MAPPING[keyPressed]){
+//     let diff = KEY_TONE_MAPPING[keyPressed] - currentTone;
+//     if (Math.abs(diff) > 12){
+//       diff = KEY_TONE_MAPPING[keyPressed] - ((Math.floor(KEY_TONE_MAPPING[keyPressed] / 12) * 12) + (currentTone % 12));
+//     }
+//     currentTone += diff;
+//     playAndPush(currentTone);
+//     lastNotes.push(diff + 12 + 1);
+//     console.log(lastNotes);
+//   }
 
-})
+// })
 
 let predictMelody = function(){
     if (lastNotes.length > 2){
@@ -229,15 +231,15 @@ scene.onPointerObservable.add(async function(e){
 			      play = true;
 			      });
 // $(canvas).mousedown(playLoop);
-$(document).keyup(async function(e){
-  let keyPressed = String.fromCharCode(e.keyCode || e.which).toLowerCase();
-  console.log(keyPressed);
-  if(typeof model === null){
-    return
-  }
-  if (KEY_TONE_MAPPING.hasOwnProperty(keyPressed)){
-  }
-  else {
-    predictMelody();
-  }
-})
+// $(document).keyup(async function(e){
+//   let keyPressed = String.fromCharCode(e.keyCode || e.which).toLowerCase();
+//   console.log(keyPressed);
+//   if(typeof model === null){
+//     return
+//   }
+//   if (KEY_TONE_MAPPING.hasOwnProperty(keyPressed)){
+//   }
+//   else {
+//     predictMelody();
+//   }
+// })
