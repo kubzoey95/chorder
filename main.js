@@ -211,6 +211,7 @@ let play = true;
 let playLoop = async function(){
 	playAndPush(Math.floor(Math.random() * 12));
 	while(play){
+		await sleep(500);
 		predictMelody();
 	}
 }
