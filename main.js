@@ -91,8 +91,13 @@ engine.runRenderLoop(function () {
 		note.x += timeDelta / 10;
 	}
 	if (noteStack.length > 0){
-		catmullRom = BABYLON.Curve3.CreateCatmullRomSpline(noteStack, 60, true);
-		catmullRomSpline = BABYLON.Mesh.CreateLines("catmullRom", catmullRom.getPoints(), scene);
+		catmullRom = BABYLON.Curve3.CreateCatmullRomSpline(noteStack, 60, false);
+		if (catmullRomSpline){
+			catmullRomSpline = BABYLON.Mesh.CreateLines("catmullRom", {points: catmullRom.getPoints(), updatable: true, instance: catmullRomSpline});
+		}
+		else{
+			catmullRomSpline = BABYLON.Mesh.CreateLines("catmullRom", {points: catmullRom.getPoints(), updatable: true}, scene);
+		}
 		if (noteStack.length > 0 && noteStack[noteStack.length - 1].x > 300){
 			noteStack = noteStack.filter(e => e.x < 300);
 		}
