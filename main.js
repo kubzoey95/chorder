@@ -148,11 +148,11 @@ let playAndPush = function(toneToPlay){
   }
 }
 
-let chooseRandomNumber = function(weights){
+let chooseRandomNumber = function(weights, lnght = 4){
   let sum = 0;
   let weightsEntries = Array.from(weights.entries());
   weightsEntries.sort((e1, e2) => e1[1] - e2[1]);
-  weightsEntries = weightsEntries.slice(weightsEntries.length - 4);
+  weightsEntries = weightsEntries.slice(weightsEntries.length - lnght);
   weightsEntries = weightsEntries.map((e) => [e[0], (e[1] - weightsEntries[0][1]) / (weightsEntries[weightsEntries.length - 1][1] - weightsEntries[0][1])]);
   let randomNumber = Math.random();
   for(let [index, weight] of weightsEntries){
@@ -164,6 +164,8 @@ let chooseRandomNumber = function(weights){
   }
 }
 
+let firstRun = true;
+
 let goThroughModel = function(){
   let prediction = null;
   while(lastNotes.length > 2){
@@ -171,7 +173,8 @@ let goThroughModel = function(){
     prediction = model.predict([lastNotesTensor]);
     lastNotes = lastNotes.slice(1);
   }
-  prediction && lastNotes.push(chooseRandomNumber(Array.from(prediction.reshape([26]).dataSync())));
+  prediction && lastNotes.push(chooseRandomNumber(Array.from(prediction.reshape([26]).dataSync()), firstRun ? 25 : 4));
+  firstRun = false;
 }
 
 // $(document).keypress(async function(e){
