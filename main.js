@@ -216,7 +216,7 @@ let playLoop = async function(){
 // 	playAndPush(firstNote);
 // 	lastNotes.push(firstNote + 12 + 1);
 	while(play){
-		await sleep(500);
+		await sleep(250);
 		predictMelody();
 	}
 }
