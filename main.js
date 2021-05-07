@@ -53,7 +53,7 @@ let loadSynth = async function(){
 			release: 1.2
 		}).toDestination();
 //   synth.connect(new Tone.Freeverb({roomSize : 0.9 , dampening : 3000}).toMaster());
-  synth.connect(env);
+  synth.connect(env).start();
   console.log("Synth loaded!");
   console.log(synth);
 }
