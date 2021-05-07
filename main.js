@@ -90,21 +90,21 @@ const createScene = function () {
 const scene = createScene(); //Call the createScene function
 
 var updatePath = function(path) {
-	    let meanVect = 0;
-	    let cnt = 0;
+// 	    let meanVect = 0;
+// 	    let cnt = 0;
 	    for (var i = 0; noteStack.length > 1 && i < noteStack.length && i < path.length; i++) {
-	      cnt += 1;
+// 	      cnt += 1;
 	      var x = noteStack[noteStack.length - 1 - i].x;
 	      var z = noteStack[noteStack.length - 1 - i].z;
 	      var y = noteStack[noteStack.length - 1 - i].y;
 	      path[i].x = x;
 	      path[i].y = y;
 	      path[i].z = z;
-	      meanVect += z;
+// 	      meanVect += z;
 	    }
-	if (cnt > 0){
-		camera.position.z = camera.position.z + ((meanVect / cnt) - camera.position.z) * timeDelta;
-	}
+// 	if (cnt > 0){
+// 		camera.position.z = camera.position.z + ((meanVect / cnt) - camera.position.z) * timeDelta;
+// 	}
 };
 let render = function(){
 	catmullRomSpline = BABYLON.Mesh.CreateLines("catmullRomSpline", path, scene, true);
@@ -142,6 +142,9 @@ let lastNotes = [0,0,0];
 let playAndPush = function(toneToPlay){
   synth && synth.triggerAttackRelease(Math.pow(2, (toneToPlay + 3) / 12) * 440.0, 5, Tone.now());
   noteStack.push(new BABYLON.Vector3(-canvas.getBoundingClientRect().width / 2, 0, -(toneToPlay - 5) / 25 * canvas.getBoundingClientRect().height / 2));
+  if (noteStack.length > path.length){
+  	noteStack = noteStack.slice(noteStack.length - path.length)
+  }
 }
 
 let chooseRandomNumber = function(weights){
