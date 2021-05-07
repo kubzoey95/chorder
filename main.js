@@ -150,7 +150,6 @@ let chooseRandomNumber = function(weights){
   weightsEntries.sort((e1, e2) => e1[1] - e2[1]);
   weightsEntries = weightsEntries.slice(weightsEntries.length - 4);
   weightsEntries = weightsEntries.map((e) => [e[0], (e[1] - weightsEntries[0][1]) / (weightsEntries[weightsEntries.length - 1][1] - weightsEntries[0][1])]);
-  console.log(weightsEntries);
   let randomNumber = Math.random();
   for(let [index, weight] of weightsEntries){
     let newSum = sum + weight;
@@ -167,7 +166,6 @@ let goThroughModel = function(){
     let lastNotesTensor = tf.oneHot(tf.tensor2d([lastNotes.slice(0,3)], [1, 3], 'int32'), 26);
     prediction = model.predict([lastNotesTensor]);
     lastNotes = lastNotes.slice(1);
-    prediction.print();
   }
   prediction && lastNotes.push(chooseRandomNumber(Array.from(prediction.reshape([26]).dataSync())));
 }
