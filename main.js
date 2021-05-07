@@ -43,7 +43,7 @@ let loadSynth = async function(){
 		G3: "G3.mp3",
 		G5: "G5.mp3"
 	},
-	  attack: 0.1,
+	  attack: 1,
 	baseUrl: "https://raw.githubusercontent.com/nbrosowsky/tonejs-instruments/master/samples/harp/"
 }).toDestination()
   synth.volume.value = -20;
