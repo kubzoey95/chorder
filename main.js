@@ -209,7 +209,7 @@ let predictMelody = function(){
 let play = false;
 render();
 let playLoop = async function(){
-	while(!play && !synth.loaded){
+	while(!play || !synth.loaded){
 		await sleep(500);
 	}
 // 	let firstNote = Math.floor(Math.random() * 24) - 12;
