@@ -226,7 +226,7 @@ let playLoop = async function(){
 	}
 }
 playLoop();
-$('#button').mousedown(async function(e){
+$('#button').on('mousedown', async function(e){
 			      if(!toneStarted){
 				    await Tone.start();
 				    toneStarted = true;
