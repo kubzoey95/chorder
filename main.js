@@ -11,7 +11,7 @@ let loadModel = async function(){
   console.log(model);
 }
 
-loadModel()
+async loadModel()
 
 let synth = 0;
 
@@ -226,13 +226,21 @@ let playLoop = async function(){
 	}
 }
 playLoop();
-scene.onPointerObservable.add(async function(e){
+$('#button').mousedown(async function(e){
 			      if(!toneStarted){
 				    await Tone.start();
 				    toneStarted = true;
 				}
 			      play = true;
+			      $('#button').hide();
 			      });
+// scene.onPointerObservable.add(async function(e){
+// 			      if(!toneStarted){
+// 				    await Tone.start();
+// 				    toneStarted = true;
+// 				}
+// 			      play = true;
+// 			      });
 // $(canvas).mousedown(playLoop);
 // $(document).keyup(async function(e){
 //   let keyPressed = String.fromCharCode(e.keyCode || e.which).toLowerCase();
