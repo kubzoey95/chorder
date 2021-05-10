@@ -47,7 +47,6 @@ let loadSynth = async function(){
 	baseUrl: "https://raw.githubusercontent.com/nbrosowsky/tonejs-instruments/master/samples/harp/"
 }).toDestination()
   synth.volume.value = -20;
-//   synth.connect(new Tone.Freeverb({roomSize : 0.9 , dampening : 3000}).toMaster());
   console.log("Synth loaded!");
   console.log(synth);
 }
@@ -75,37 +74,23 @@ let camera = null;
 const createScene = function () {
 	const scene = new BABYLON.Scene(engine);
 	scene.clearColor = new BABYLON.Color3(0, 0, 0);
-// 	if (noteStack.length > 0){
-// 		for (let note of noteStack){
-// 			note.x -= 10 * timeDelta / 1000;
-// 		}
-// 		var catmullRomSpline = BABYLON.Mesh.CreateLines("catmullRom", catmullRom.getPoints(), scene);
-// 	}
 	camera = new BABYLON.ArcRotateCamera('camera', Math.PI / 2, 0, 100, new BABYLON.Vector3(0, 0, 0), scene);
     	camera.mode = BABYLON.Camera.ORTHOGRAPHIC_CAMERA;
-// 	camera.attachControl(canvas, true);
 	catmullRomSpline = BABYLON.Mesh.CreateLines(null, path, null, null, catmullRomSpline);
 	return scene;
 };
 
-const scene = createScene(); //Call the createScene function
+const scene = createScene();
 
 var updatePath = function(path) {
-// 	    let meanVect = 0;
-// 	    let cnt = 0;
 	    for (var i = 0; noteStack.length > 1 && i < noteStack.length && i < path.length; i++) {
-// 	      cnt += 1;
 	      var x = noteStack[noteStack.length - 1 - i].x;
 	      var z = noteStack[noteStack.length - 1 - i].z;
 	      var y = noteStack[noteStack.length - 1 - i].y;
 	      path[i].x = x;
 	      path[i].y = y;
 	      path[i].z = z;
-// 	      meanVect += z;
 	    }
-// 	if (cnt > 0){
-// 		camera.position.z = camera.position.z + ((meanVect / cnt) - camera.position.z) * timeDelta;
-// 	}
 };
 let render = function(){
 	catmullRomSpline = BABYLON.Mesh.CreateLines("catmullRomSpline", path, scene, true);
@@ -113,7 +98,6 @@ let render = function(){
 	    updatePath(path);
 	    catmullRomSpline = BABYLON.Mesh.CreateLines(null, path, null, null, catmullRomSpline);
 	});
-	// Register a render loop to repeatedly render the scene
 	engine.runRenderLoop(function () {
 		let perf = performance.now();
 		timeDelta = perf - time;
@@ -124,7 +108,6 @@ let render = function(){
 		scene.render();
 });
 
-// Watch for browser/canvas resize events
 window.addEventListener("resize", function () {
 	engine.resize();
 });
@@ -177,26 +160,6 @@ let goThroughModel = function(){
   firstRun = false;
 }
 
-// $(document).keypress(async function(e){
-//   if(!toneStarted){
-//     await Tone.start();
-//     toneStarted = true;
-//     render();
-//   }
-//   let keyPressed = String.fromCharCode(e.keyCode || e.which).toLowerCase();
-//   if (KEY_TONE_MAPPING.hasOwnProperty(keyPressed) && currentTone !== KEY_TONE_MAPPING[keyPressed]){
-//     let diff = KEY_TONE_MAPPING[keyPressed] - currentTone;
-//     if (Math.abs(diff) > 12){
-//       diff = KEY_TONE_MAPPING[keyPressed] - ((Math.floor(KEY_TONE_MAPPING[keyPressed] / 12) * 12) + (currentTone % 12));
-//     }
-//     currentTone += diff;
-//     playAndPush(currentTone);
-//     lastNotes.push(diff + 12 + 1);
-//     console.log(lastNotes);
-//   }
-
-// })
-
 let predictMelody = function(){
     if (lastNotes.length > 2){
       goThroughModel();
@@ -217,9 +180,6 @@ let playLoop = async function(){
 	while(!play || !synth.loaded){
 		await sleep(500);
 	}
-// 	let firstNote = Math.floor(Math.random() * 24) - 12;
-// 	playAndPush(firstNote);
-// 	lastNotes.push(firstNote + 12 + 1);
 	while(play){
 		await sleep(250);
 		predictMelody();
@@ -234,23 +194,3 @@ $('#button').on('mousedown', async function(e){
 			      play = true;
 			      $('#button').hide();
 			      });
-// scene.onPointerObservable.add(async function(e){
-// 			      if(!toneStarted){
-// 				    await Tone.start();
-// 				    toneStarted = true;
-// 				}
-// 			      play = true;
-// 			      });
-// $(canvas).mousedown(playLoop);
-// $(document).keyup(async function(e){
-//   let keyPressed = String.fromCharCode(e.keyCode || e.which).toLowerCase();
-//   console.log(keyPressed);
-//   if(typeof model === null){
-//     return
-//   }
-//   if (KEY_TONE_MAPPING.hasOwnProperty(keyPressed)){
-//   }
-//   else {
-//     predictMelody();
-//   }
-// })
