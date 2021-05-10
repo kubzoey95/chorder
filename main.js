@@ -11,7 +11,7 @@ let loadModel = async function(){
   console.log(model);
 }
 
-async loadModel()
+await loadModel()
 
 let synth = 0;
 
