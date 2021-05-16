@@ -55,6 +55,7 @@ loadSynth()
 
 let noteStack = [];
 
+
 let lastTime = performance.now();
 
 let refreshTime = 0;
